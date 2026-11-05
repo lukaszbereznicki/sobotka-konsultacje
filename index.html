@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="pl">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Projekt komunikacji Gminy Sobótka · konsultacje</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+
+<body>
+  <header>
+    <div class="head">
+      <div class="mark">
+        <img src="herb-sobotki.svg" alt="Herb Gminy Sobótka" class="municipality-logo" />
+      </div>
+      <div>
+        <b>Komunikacja Gminna Sobótka</b><br /><span class="tag">PROJEKT DO KONSULTACJI</span>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="card">
+        <h1>Sprawdź, co projekt komunikacji oferuje Tobie</h1>
+        <p>
+          To nie jest obowiązujący rozkład jazdy. Strona prezentuje projekt
+          czterech linii autobusowych 61–64 i pomaga ocenić, czy proponowane
+          połączenia odpowiadają potrzebom mieszkańców.
+        </p>
+        <button class="btn orange" onclick="tab('find', document.querySelectorAll('.tabs button')[0])">
+          Sprawdź połączenie
+        </button>
+      </div>
+      <div class="card notice">
+        <b>Najpierw sprawdź ofertę, potem ją oceń</b>
+        <p>
+          Wybierz interesujące Cię przystanki i godzinę. Na końcu możesz
+          wskazać, czego w projekcie brakuje.
+        </p>
+      </div>
+    </section>
+    <nav class="tabs">
+      <button class="active" onclick="tab('find', this)">
+        🔎 Znajdź połączenie
+      </button>
+      <button onclick="tab('stop', this)">🚏 Mój przystanek</button>
+      <button onclick="tab('routes', this)">🚌 Linie 61–64</button>
+      <button onclick="tab('mapView', this)">
+        🗺️ Mapa
+      </button>
+      <button onclick="tab('feedback', this)">💬 Oceń projekt</button><button onclick="tab('about', this)">ℹ️ O
+        projekcie</button>
+    </nav>
+    <section id="find" class="view active">
+      <div class="card">
+        <h2>Znajdź proponowane połączenie</h2>
+        <div class="grid2">
+          <div class="field">
+            <label>Skąd</label><select id="origin"></select>
+          </div>
+          <div class="field">
+            <label>Dokąd</label><select id="destination"></select>
+          </div>
+          <div class="field">
+            <label>Co jest ważniejsze?</label><select id="timeMode">
+              <option value="departure">Chcę odjechać około</option>
+              <option value="arrival">Chcę dotrzeć około</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Godzina</label>
+
+            <div class="time-picker">
+              <select id="desiredHour">
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07" selected>07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+              </select>
+
+              <span class="time-separator">:</span>
+
+              <select id="desiredMinute">
+                <option value="00">00</option>
+                <option value="05">05</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="30" selected>30</option>
+                <option value="35">35</option>
+                <option value="40">40</option>
+                <option value="45">45</option>
+                <option value="50">50</option>
+                <option value="55">55</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button class="btn primary" onclick="searchConnections()">
+          Pokaż propozycje
+        </button>
+        <div id="results"></div>
+      </div>
+    </section>
+    <section id="stop" class="view">
+      <div class="card">
+        <h2>Co projekt oferuje na moim przystanku?</h2>
+        <div class="field">
+          <label>Przystanek</label><select id="myStop" onchange="showStop()"></select>
+        </div>
+        <div id="stopResults"></div>
+      </div>
+    </section>
+    <section id="routes" class="view">
+      <div class="grid2">
+        <div class="card">
+          <h2>Linie i kierunki</h2>
+          <div id="lines"></div>
+        </div>
+        <div class="card">
+          <h2>Rozkład</h2>
+          <div id="schedule" class="muted">Wybierz kierunek po lewej.</div>
+        </div>
+      </div>
+    </section>
+    <section id="mapView" class="view">
+      <div class="card">
+
+        <h2>Mapa projektowanej komunikacji</h2>
+
+        <p class="muted">
+          Na mapie przedstawiono przystanki, trasy autobusowe
+          oraz stacje kolejowe objęte projektem.
+        </p>
+
+        <div id="mapFullscreenContainer">
+
+          <div class="map-controls">
+
+            <strong>Widoczność na mapie</strong>
+
+            <label>
+              <input type="checkbox" checked onchange="toggleStops(this.checked)">
+              Przystanki
+            </label>
+
+            <label>
+              <input type="checkbox" checked onchange="toggleRailStations(this.checked)">
+              🚆 Stacje kolejowe
+            </label>
+
+            <label>
+              <input type="checkbox" checked onchange="toggleLine('61', this.checked)">
+              <span class="map-line-color line-61"></span>
+              Linia 61
+            </label>
+
+            <label>
+              <input type="checkbox" checked onchange="toggleLine('62', this.checked)">
+              <span class="map-line-color line-62"></span>
+              Linia 62
+            </label>
+
+            <label>
+              <input type="checkbox" checked onchange="toggleLine('63', this.checked)">
+              <span class="map-line-color line-63"></span>
+              Linia 63
+            </label>
+
+            <label>
+              <input type="checkbox" checked onchange="toggleLine('64', this.checked)">
+              <span class="map-line-color line-64"></span>
+              Linia 64
+            </label>
+
+          </div>
+
+          <button type="button" class="map-fullscreen-button" onclick="toggleMapFullscreen()" title="Pełny ekran"
+            aria-label="Otwórz mapę na pełnym ekranie">
+            ⛶
+          </button>
+
+          <div id="transportMap"></div>
+
+        </div>
+
+      </div>
+    </section>
+    </section>
+    <section id="feedback" class="view">
+      <div class="card">
+        <h2>Czy projekt odpowiada Twoim potrzebom?</h2>
+        <div class="grid2">
+          <div class="field">
+            <label>Skąd najczęściej rozpoczynasz podróż?</label><select id="feedbackOrigin"></select>
+          </div>
+          <div class="field">
+            <label>Dokąd najczęściej jedziesz?</label><select id="feedbackDestination"></select>
+          </div>
+          <div class="field">
+            <label>Potrzebuję</label><select id="feedbackMode">
+              <option value="departure">wyjechać około</option>
+              <option value="arrival">dotrzeć około</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Pożądana godzina</label><input type="time" id="feedbackTime" />
+          </div>
+          <div class="field">
+            <label>Cel podróży</label><select id="purpose">
+              <option value="">Wybierz…</option>
+              <option value="work">Praca</option>
+              <option value="school">Szkoła / nauka</option>
+              <option value="healthcare">Lekarz / zdrowie</option>
+              <option value="shopping">Zakupy</option>
+              <option value="official_business">
+                Urząd / sprawy formalne
+              </option>
+              <option value="connections">Przesiadka / dalsza podróż</option>
+              <option value="other">Inny</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Jaka godzina byłaby lepsza?</label><input type="time" id="preferredTime" />
+          </div>
+        </div>
+        <h3>Jak oceniasz projekt dla tej potrzeby?</h3>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="assessment" value="suitable" />
+            Odpowiada</label><label class="chip"><input type="radio" name="assessment" value="partially_suitable" />
+            Częściowo</label><label class="chip"><input type="radio" name="assessment" value="not_suitable" /> Nie
+            odpowiada</label>
+        </div>
+        <h3>Jeżeli nie, czego brakuje?</h3>
+        <div class="chips">
+          <button class="chip" onclick="toggleProblem(this, 'too_early')">
+            Za wcześnie</button><button class="chip" onclick="toggleProblem(this, 'too_late')">
+            Za późno</button><button class="chip" onclick="toggleProblem(this, 'no_trip_near_needed_time')">
+            Brak kursu w potrzebnej godzinie</button><button class="chip"
+            onclick="toggleProblem(this, 'journey_too_long')">
+            Podróż za długa</button><button class="chip" onclick="toggleProblem(this, 'wrong_route')">
+            Nieodpowiedni przebieg</button><button class="chip" onclick="toggleProblem(this, 'missing_stop')">
+            Brak przystanku</button><button class="chip" onclick="toggleProblem(this, 'other')">
+            Inne
+          </button>
+        </div>
+        <div class="field" style="margin-top: 14px">
+          <label>Dodatkowy komentarz</label><textarea id="comment"
+            placeholder="Opcjonalnie opisz swoją potrzebę..."></textarea>
+        </div>
+        <button class="btn orange" onclick="saveFeedback()">
+          Zapisz opinię
+        </button>
+        <button class="btn" onclick="exportFeedback()">
+          Eksportuj zapisane odpowiedzi JSON
+        </button>
+        <div id="feedbackStatus"></div>
+      </div>
+    </section>
+    <section id="about" class="view">
+      <div class="card">
+        <h2>O projekcie</h2>
+        <div id="stats" class="stats"></div>
+        <p>
+          Prezentowane dane są projektem komunikacji i służą konsultacjom. Nie
+          stanowią obowiązującego rozkładu jazdy.
+        </p>
+        <p class="muted">
+          W tej wersji demonstracyjnej odpowiedzi mieszkańców są przechowywane
+          tylko lokalnie w przeglądarce. Nie są wysyłane na serwer.
+        </p>
+      </div>
+    </section>
+  </main>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

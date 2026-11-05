@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "1.0",
+  "responseExample": {
+    "responseId": "generated-client-side",
+    "createdAt": "ISO-8601",
+    "origin": {
+      "stopId": null,
+      "locality": null
+    },
+    "destination": {
+      "stopId": null,
+      "locality": null
+    },
+    "need": {
+      "direction": "departure",
+      "desiredTime": null,
+      "purpose": null
+    },
+    "evaluatedTripIds": [],
+    "assessment": null,
+    "problems": [],
+    "preferredTime": null,
+    "comment": ""
+  },
+  "assessmentValues": [
+    "suitable",
+    "partially_suitable",
+    "not_suitable"
+  ],
+  "problemValues": [
+    "too_early",
+    "too_late",
+    "no_trip_near_needed_time",
+    "journey_too_long",
+    "wrong_route",
+    "missing_stop",
+    "other"
+  ],
+  "purposeValues": [
+    "work",
+    "school",
+    "healthcare",
+    "shopping",
+    "official_business",
+    "connections",
+    "other"
+  ]
+}

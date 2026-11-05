@@ -1,0 +1,1391 @@
+{
+  "meta": {
+    "schemaVersion": "1.0",
+    "validFrom": "2026-10-25",
+    "validTo": "2026-12-12",
+    "sourceDataUpdatedAt": "2026-10-26",
+    "operator": "KD",
+    "operatorName": "Koleje Dolnośląskie S.A.",
+    "timeFormat": "HH:mm",
+    "serviceDayBoundary": "calendar_day",
+    "notes": [
+      "Dataset transcribed from the three supplied official departure posters.",
+      "sourceExpression preserves only calendar expressions explicitly visible in the extracted poster text; null means no expression was captured, not that the train necessarily runs daily.",
+      "localStops contains only the three stations in Gmina Sobótka when that train is explicitly visible at those stations in the supplied posters."
+    ]
+  },
+  "serviceCodeLegend": {
+    "1": "w poniedziałki",
+    "5": "w piątki",
+    "6": "w soboty",
+    "7": "w niedziele",
+    "/": "oprócz",
+    "+": "oraz"
+  },
+  "stations": [
+    {
+      "stationId": "PKP_ROGOW",
+      "name": "Rogów Sobócki",
+      "location": {
+        "lat": 50.934078,
+        "lon": 16.75892
+      }
+    },
+    {
+      "stationId": "PKP_SOBOTKA",
+      "name": "Sobótka",
+      "location": {
+        "lat": 50.905168,
+        "lon": 16.740617
+      }
+    },
+    {
+      "stationId": "PKP_SOBOTKA_ZACHODNIA",
+      "name": "Sobótka Zachodnia",
+      "location": {
+        "lat": 50.907822,
+        "lon": 16.700893
+      }
+    }
+  ],
+  "trains": [
+    {
+      "trainId": "60238",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "04:30",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "04:33",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "04:38",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Trzebnica",
+        "arrivalTime": "06:32"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "05:20"
+        },
+        {
+          "stationName": "Wrocław Mikołajów",
+          "arrivalTime": "05:47"
+        },
+        {
+          "stationName": "Wrocław Szczepin",
+          "arrivalTime": "05:51"
+        },
+        {
+          "stationName": "Wrocław Nadodrze",
+          "arrivalTime": "05:53"
+        }
+      ],
+      "service": {
+        "sourceExpression": "1-5 / 11 XI"
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60240 60242",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "05:36",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "05:39",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "05:44",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Wrocław Główny",
+        "arrivalTime": "06:21"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "06:21"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60244",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "06:11",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "06:14",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "06:19",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Wrocław Główny",
+        "arrivalTime": "06:56"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "06:56"
+        }
+      ],
+      "service": {
+        "sourceExpression": "1-5 / 11 XI"
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60246",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "06:34",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "06:38",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "06:42",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Wrocław Główny",
+        "arrivalTime": "07:20"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "07:20"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60254",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "09:42",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "09:45",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "09:50",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Wrocław Główny",
+        "arrivalTime": "10:32"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "10:32"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60264",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "12:56",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "12:59",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "13:04",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Trzebnica",
+        "arrivalTime": "14:30"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "13:41"
+        },
+        {
+          "stationName": "Wrocław Mikołajów",
+          "arrivalTime": "13:47"
+        },
+        {
+          "stationName": "Wrocław Szczepin",
+          "arrivalTime": "13:50"
+        },
+        {
+          "stationName": "Wrocław Nadodrze",
+          "arrivalTime": "13:53"
+        }
+      ],
+      "service": {
+        "sourceExpression": "1-5 / 11 XI"
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60262",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "12:56",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "12:59",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "13:04",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Wrocław Główny",
+        "arrivalTime": "13:41"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "13:41"
+        }
+      ],
+      "service": {
+        "sourceExpression": "67 + 11 XI"
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60266",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "14:29",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "14:33",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "14:38",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Wrocław Główny",
+        "arrivalTime": "15:15"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "15:15"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60268",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "15:35",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "15:39",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "15:43",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Wrocław Główny",
+        "arrivalTime": "16:25"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "16:25"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60272",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "16:23",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "16:26",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "16:30",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Wrocław Główny",
+        "arrivalTime": "17:09"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "17:09"
+        }
+      ],
+      "service": {
+        "sourceExpression": "1-5 / 11 XI"
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60274",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "17:27",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "17:30",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "17:35",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Wrocław Główny",
+        "arrivalTime": "18:17"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "18:17"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60280",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "21:02",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "21:06",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "21:11",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Trzebnica",
+        "arrivalTime": "22:50"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "21:53"
+        },
+        {
+          "stationName": "Wrocław Mikołajów",
+          "arrivalTime": "22:07"
+        },
+        {
+          "stationName": "Wrocław Szczepin",
+          "arrivalTime": "22:10"
+        },
+        {
+          "stationName": "Wrocław Nadodrze",
+          "arrivalTime": "22:13"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60248",
+      "operator": "KD",
+      "category": "OsP",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "08:18",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Trzebnica",
+        "arrivalTime": "09:56"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "08:53"
+        }
+      ],
+      "service": {
+        "sourceExpression": "1-5 / 11 XI"
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60250",
+      "operator": "KD",
+      "category": "OsP",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "08:18",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Wrocław Główny",
+        "arrivalTime": "08:53"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "08:53"
+        }
+      ],
+      "service": {
+        "sourceExpression": "67 + 11 XI"
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60256",
+      "operator": "KD",
+      "category": "OsP",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "10:34",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Wrocław Główny",
+        "arrivalTime": "11:07"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "11:07"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60260",
+      "operator": "KD",
+      "category": "OsP",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "11:21",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Wrocław Główny",
+        "arrivalTime": "12:00"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "12:00"
+        }
+      ],
+      "service": {
+        "sourceExpression": "67 + 11 XI"
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60270",
+      "operator": "KD",
+      "category": "OsP",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "16:28",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Wrocław Główny",
+        "arrivalTime": "17:08"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "17:08"
+        }
+      ],
+      "service": {
+        "sourceExpression": "67 + 11 XI"
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60276",
+      "operator": "KD",
+      "category": "OsP",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "19:03",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Wrocław Główny",
+        "arrivalTime": "19:41"
+      },
+      "keyStops": [
+        {
+          "stationName": "Wrocław Główny",
+          "arrivalTime": "19:41"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "69903",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "05:25",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "05:29",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "05:33",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Sobótka Zachodnia",
+        "arrivalTime": "05:33"
+      },
+      "keyStops": [],
+      "service": {
+        "sourceExpression": "1-5 / 11 XI"
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "69905",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "07:10",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "07:15",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "07:18",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Świdnica Miasto",
+        "arrivalTime": "07:43"
+      },
+      "keyStops": [
+        {
+          "stationName": "Świdnica Miasto",
+          "arrivalTime": "07:43"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "69911",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "10:21",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "10:25",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "10:29",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Bielawa Góry Sowie",
+        "arrivalTime": "11:41"
+      },
+      "keyStops": [],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60207",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "11:51",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "11:56",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "11:59",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Świdnica Miasto",
+        "arrivalTime": "12:24"
+      },
+      "keyStops": [
+        {
+          "stationName": "Świdnica Miasto",
+          "arrivalTime": "12:24"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60211",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "14:18",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "14:23",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "14:31",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Świdnica Miasto",
+        "arrivalTime": "14:57"
+      },
+      "keyStops": [
+        {
+          "stationName": "Świdnica Miasto",
+          "arrivalTime": "14:57"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60213",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "15:22",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "15:27",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "15:30",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Sobótka Zachodnia",
+        "arrivalTime": "15:30"
+      },
+      "keyStops": [],
+      "service": {
+        "sourceExpression": "1-5 / 11 XI"
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60215 69919",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "16:13",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "16:18",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "16:21",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Świdnica Miasto",
+        "arrivalTime": "16:46"
+      },
+      "keyStops": [
+        {
+          "stationName": "Świdnica Miasto",
+          "arrivalTime": "16:46"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "69921",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "17:17",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "17:22",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "17:25",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Jawor",
+        "arrivalTime": "18:44"
+      },
+      "keyStops": [],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "69925",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "19:33",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "19:37",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "19:40",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Świdnica Miasto",
+        "arrivalTime": "20:06"
+      },
+      "keyStops": [
+        {
+          "stationName": "Świdnica Miasto",
+          "arrivalTime": "20:06"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "69929",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "21:41",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "21:46",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "21:49",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Jaworzyna Śląska",
+        "arrivalTime": "22:29"
+      },
+      "keyStops": [],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60221 66229",
+      "operator": "KD",
+      "category": "Os",
+      "localStops": [
+        {
+          "stationId": "PKP_ROGOW",
+          "departureTime": "23:07",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "23:12",
+          "platform": "1",
+          "track": "1"
+        },
+        {
+          "stationId": "PKP_SOBOTKA_ZACHODNIA",
+          "departureTime": "23:15",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Bielawa Góry Sowie",
+        "arrivalTime": "00:28"
+      },
+      "keyStops": [],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "69907",
+      "operator": "KD",
+      "category": "OsP",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "08:08",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Świdnica Miasto",
+        "arrivalTime": "08:37"
+      },
+      "keyStops": [
+        {
+          "stationName": "Świdnica Miasto",
+          "arrivalTime": "08:37"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60203",
+      "operator": "KD",
+      "category": "OsP",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "09:35",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Świdnica Miasto",
+        "arrivalTime": "10:04"
+      },
+      "keyStops": [
+        {
+          "stationName": "Świdnica Miasto",
+          "arrivalTime": "10:04"
+        }
+      ],
+      "service": {
+        "sourceExpression": "67 + 11 XI"
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60209",
+      "operator": "KD",
+      "category": "OsP",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "12:49",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Bielawa Góry Sowie",
+        "arrivalTime": "14:17"
+      },
+      "keyStops": [
+        {
+          "stationName": "Bielawa Góry Sowie",
+          "arrivalTime": "14:17"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    },
+    {
+      "trainId": "60217",
+      "operator": "KD",
+      "category": "OsP",
+      "localStops": [
+        {
+          "stationId": "PKP_SOBOTKA",
+          "departureTime": "18:06",
+          "platform": "1",
+          "track": "1"
+        }
+      ],
+      "destination": {
+        "stationName": "Bielawa Góry Sowie",
+        "arrivalTime": "19:13"
+      },
+      "keyStops": [
+        {
+          "stationName": "Bielawa Góry Sowie",
+          "arrivalTime": "19:13"
+        }
+      ],
+      "service": {
+        "sourceExpression": null
+      },
+      "amenities": [],
+      "source": [
+        "Plakat_2026_ROGOW_SOBOCKI_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf",
+        "Plakat_2026_SOBOTKA_Odjazdy_Wazny_20261025-20261212_PL_202611011814.pdf",
+        "Plakat_2026_SOBOTKA_ZACHODNIA_Odjazdy_Wazny_20261025-20261212_PL_202611011815.pdf"
+      ]
+    }
+  ]
+}
