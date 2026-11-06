@@ -1,6 +1,7 @@
 let DATA = null;
 let ROUTE_GEOMETRIES = null;
 let RAIL_DATA = null;
+let RAIL_GEOMETRY = null;
 const $ = (id) => document.getElementById(id);
 const byId = (a, k) => Object.fromEntries(a.map((x) => [x[k], x]));
 let STOPS = {},
@@ -13,6 +14,7 @@ let EXACT_ROUTE_LAYER = null;
 let GENERATED_ROUTE_LAYERS = {};
 let STOP_LAYER = null;
 let RAIL_STATION_LAYER = null;
+let RAIL_LINE_LAYER = null;
 
 let LINE_LAYERS = {
   61: null,
@@ -22,17 +24,21 @@ let LINE_LAYERS = {
 };
 
 async function init() {
-  const [transportData, routeGeometries, railData] = await Promise.all([
-    fetch("sobotka_transport.json").then((response) => response.json()),
+  const [transportData, routeGeometries, railData, railGeometry] =
+    await Promise.all([
+      fetch("sobotka_transport.json").then((response) => response.json()),
 
-    fetch("route_geometries.json").then((response) => response.json()),
+      fetch("route_geometries.json").then((response) => response.json()),
 
-    fetch("rail_schedule.json").then((response) => response.json()),
-  ]);
+      fetch("rail_schedule.json").then((response) => response.json()),
+
+      fetch("rail_geometry.json").then((response) => response.json()),
+    ]);
 
   DATA = transportData;
   ROUTE_GEOMETRIES = routeGeometries;
   RAIL_DATA = railData;
+  RAIL_GEOMETRY = railGeometry;
   STOPS = byId(DATA.stops, "stopId");
   ROUTES = byId(DATA.routeVariants, "routeVariantId");
   TRIPS = byId(DATA.physicalTrips, "tripId");
@@ -303,6 +309,70 @@ function drawRailStations() {
   }
 }
 
+function drawRailLine() {
+  const geometry = RAIL_GEOMETRY?.routes?.["WROCLAW_SWIDNICA"];
+
+  if (!geometry) {
+    console.error("Nie znaleziono geometrii linii kolejowej WROCLAW_SWIDNICA.");
+    return;
+  }
+
+  if (
+    geometry.type !== "LineString" ||
+    !Array.isArray(geometry.coordinates) ||
+    geometry.coordinates.length < 2
+  ) {
+    console.error("Nieprawidłowa geometria linii kolejowej.");
+    return;
+  }
+
+  /*
+   * rail_geometry.json:
+   * [longitude, latitude]
+   *
+   * Leaflet:
+   * [latitude, longitude]
+   */
+  const coordinates = geometry.coordinates.map((coordinate) => [
+    coordinate[1],
+    coordinate[0],
+  ]);
+
+  /*
+   * Jeżeli warstwa już istnieje,
+   * usuwamy starą wersję.
+   */
+  if (RAIL_LINE_LAYER) {
+    TRANSPORT_MAP.removeLayer(RAIL_LINE_LAYER);
+  }
+
+  RAIL_LINE_LAYER = L.polyline(coordinates, {
+    color: "#343A3D",
+    weight: 5,
+    opacity: 0.9,
+    pane: "routesPane",
+  });
+
+  RAIL_LINE_LAYER.addTo(TRANSPORT_MAP).bindPopup(`
+            <div class="map-popup">
+
+                <strong>
+                    🛤 Linia kolejowa
+                </strong>
+
+                <div>
+                    Wrocław – Świdnica
+                </div>
+
+                <div class="muted">
+                    przez Rogów Sobócki,
+                    Sobótkę i Sobótkę Zachodnią
+                </div>
+
+            </div>
+        `);
+}
+
 function toggleStops(visible) {
   if (!STOP_LAYER) {
     return;
@@ -333,6 +403,34 @@ function toggleRailStations(visible) {
       TRANSPORT_MAP.removeLayer(RAIL_STATION_LAYER);
     }
   }
+}
+
+function toggleRailLine(visible) {
+    if (!RAIL_LINE_LAYER) {
+        return;
+    }
+
+    if (visible) {
+        if (
+            !TRANSPORT_MAP.hasLayer(
+                RAIL_LINE_LAYER
+            )
+        ) {
+            RAIL_LINE_LAYER.addTo(
+                TRANSPORT_MAP
+            );
+        }
+    } else {
+        if (
+            TRANSPORT_MAP.hasLayer(
+                RAIL_LINE_LAYER
+            )
+        ) {
+            TRANSPORT_MAP.removeLayer(
+                RAIL_LINE_LAYER
+            );
+        }
+    }
 }
 
 function toggleLine(lineId, visible) {
@@ -580,40 +678,31 @@ function initializeTransportMap() {
     });
   }
   drawExactRoutes();
+  drawRailLine();
   drawRailStations();
 }
 
 async function toggleMapFullscreen() {
-    const container =
-        document.getElementById("mapFullscreenContainer");
+  const container = document.getElementById("mapFullscreenContainer");
 
-    if (!document.fullscreenElement) {
-        try {
-            await container.requestFullscreen();
-        } catch (error) {
-            console.error(
-                "Nie udało się uruchomić trybu pełnoekranowego:",
-                error
-            );
-        }
-    } else {
-        await document.exitFullscreen();
+  if (!document.fullscreenElement) {
+    try {
+      await container.requestFullscreen();
+    } catch (error) {
+      console.error("Nie udało się uruchomić trybu pełnoekranowego:", error);
     }
+  } else {
+    await document.exitFullscreen();
+  }
 }
 
-document.addEventListener(
-    "fullscreenchange",
-    () => {
-        if (TRANSPORT_MAP) {
-            setTimeout(
-                () => {
-                    TRANSPORT_MAP.invalidateSize();
-                },
-                100
-            );
-        }
-    }
-);
+document.addEventListener("fullscreenchange", () => {
+  if (TRANSPORT_MAP) {
+    setTimeout(() => {
+      TRANSPORT_MAP.invalidateSize();
+    }, 100);
+  }
+});
 
 function getStopDisplayName(stop) {
   if (stop.railConnection?.available) {

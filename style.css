@@ -792,3 +792,7 @@ a:focus-visible,
 
     z-index: 1100;
 }
+
+.rail-line-color {
+    background: #343a3d;
+}
