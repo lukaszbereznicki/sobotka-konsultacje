@@ -203,7 +203,49 @@
             </label>
 
           </div>
+          <div class="simulation-controls">
 
+            <div class="simulation-clock">
+              <span class="simulation-clock-label">
+                Godzina
+              </span>
+
+              <strong id="simulationClock">
+                00:00
+              </strong>
+            </div>
+
+            <button type="button" id="simulationPlayButton" class="simulation-play-button" onclick="toggleSimulation()"
+              aria-label="Uruchom symulację">
+              ▶ Play
+            </button>
+
+            <label class="simulation-speed">
+              <span>Prędkość symulacji</span>
+
+              <select id="simulationSpeed" onchange="changeSimulationSpeed(this.value)">
+                <option value="60">Wolno — 1 godz. = 1 min</option>
+                <option value="120">Spokojnie — 1 godz. = 30 sek.</option>
+                <option value="300" selected>Normalnie — 1 godz. = 12 sek.</option>
+                <option value="600">Szybko — 1 godz. = 6 sek.</option>
+                <option value="1200">Bardzo szybko — 1 godz. = 3 sek.</option>
+              </select>
+            </label>
+
+
+            <button type="button" class="simulation-time-button" onclick="changeSimulationTime(-60)">
+              −1 godz.
+            </button>
+
+            <button type="button" class="simulation-time-button" onclick="changeSimulationTime(60)">
+              +1 godz.
+            </button>
+
+            <button type="button" class="simulation-time-button" onclick="resetSimulationTime()">
+              Teraz
+            </button>
+
+          </div>
           <button type="button" class="map-fullscreen-button" onclick="toggleMapFullscreen()" title="Pełny ekran"
             aria-label="Otwórz mapę na pełnym ekranie">
             ⛶

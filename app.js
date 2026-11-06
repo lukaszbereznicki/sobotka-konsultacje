@@ -15,13 +15,32 @@ let GENERATED_ROUTE_LAYERS = {};
 let STOP_LAYER = null;
 let RAIL_STATION_LAYER = null;
 let RAIL_LINE_LAYER = null;
-
+let TRAIN_VEHICLE_LAYER = null;
+let RAIL_ANIMATION_CACHE = null;
+const DEFAULT_TRAIN_SPEED_KMH = 70;
 let LINE_LAYERS = {
   61: null,
   62: null,
   63: null,
   64: null,
 };
+
+let SIMULATION = {
+  running: false,
+  speed: 300,
+  currentTimeSeconds: 0,
+  previousFrameTimestamp: null,
+  animationFrameId: null,
+};
+
+let BUS_VEHICLE_LAYERS = {
+  61: null,
+  62: null,
+  63: null,
+  64: null,
+};
+
+let ROUTE_ANIMATION_CACHE = {};
 
 async function init() {
   const [transportData, routeGeometries, railData, railGeometry] =
@@ -49,6 +68,8 @@ async function init() {
   fillStops();
   renderLines();
   renderStats();
+  initializeSimulation();
+
   console.log("Wykryte przystanki przesiadkowe:", getTransferStops());
   console.log(
     "Przykładowe połączenia z przesiadką:",
@@ -150,6 +171,52 @@ const railStationIcon = L.divIcon({
   popupAnchor: [0, -18],
 });
 
+function createBusIcon(lineId) {
+  const line = DATA.lines.find((item) => item.lineId === lineId);
+
+  const color = line?.color || "#173e35";
+
+  return L.divIcon({
+    className: "bus-map-marker",
+
+    html: `
+            <div
+                class="bus-map-marker-inner"
+                style="border-color: ${color};"
+            >
+                <span class="bus-map-marker-icon">🚌</span>
+                <span
+                    class="bus-map-marker-line"
+                    style="background: ${color};"
+                >
+                    ${lineId}
+                </span>
+            </div>
+        `,
+
+    iconSize: [46, 38],
+    iconAnchor: [23, 19],
+    popupAnchor: [0, -21],
+  });
+}
+function createTrainIcon() {
+    return L.divIcon({
+        className: "train-map-marker",
+
+        html: `
+            <div class="train-map-marker-inner">
+                <span class="train-map-marker-icon">🚆</span>
+                <span class="train-map-marker-label">
+                    KD
+                </span>
+            </div>
+        `,
+
+        iconSize: [46, 38],
+        iconAnchor: [23, 19],
+        popupAnchor: [0, -21]
+    });
+}
 function getTrainsForStation(stationId) {
   if (!RAIL_DATA?.trains) {
     return [];
@@ -403,34 +470,45 @@ function toggleRailStations(visible) {
       TRANSPORT_MAP.removeLayer(RAIL_STATION_LAYER);
     }
   }
-}
-
-function toggleRailLine(visible) {
-    if (!RAIL_LINE_LAYER) {
-        return;
-    }
-
+  if (TRAIN_VEHICLE_LAYER) {
     if (visible) {
         if (
             !TRANSPORT_MAP.hasLayer(
-                RAIL_LINE_LAYER
+                TRAIN_VEHICLE_LAYER
             )
         ) {
-            RAIL_LINE_LAYER.addTo(
+            TRAIN_VEHICLE_LAYER.addTo(
                 TRANSPORT_MAP
             );
         }
     } else {
         if (
             TRANSPORT_MAP.hasLayer(
-                RAIL_LINE_LAYER
+                TRAIN_VEHICLE_LAYER
             )
         ) {
             TRANSPORT_MAP.removeLayer(
-                RAIL_LINE_LAYER
+                TRAIN_VEHICLE_LAYER
             );
         }
     }
+}
+}
+
+function toggleRailLine(visible) {
+  if (!RAIL_LINE_LAYER) {
+    return;
+  }
+
+  if (visible) {
+    if (!TRANSPORT_MAP.hasLayer(RAIL_LINE_LAYER)) {
+      RAIL_LINE_LAYER.addTo(TRANSPORT_MAP);
+    }
+  } else {
+    if (TRANSPORT_MAP.hasLayer(RAIL_LINE_LAYER)) {
+      TRANSPORT_MAP.removeLayer(RAIL_LINE_LAYER);
+    }
+  }
 }
 
 function toggleLine(lineId, visible) {
@@ -447,6 +525,19 @@ function toggleLine(lineId, visible) {
   } else {
     if (TRANSPORT_MAP.hasLayer(layer)) {
       TRANSPORT_MAP.removeLayer(layer);
+    }
+  }
+  const vehicleLayer = BUS_VEHICLE_LAYERS[lineId];
+
+  if (vehicleLayer) {
+    if (visible) {
+      if (!TRANSPORT_MAP.hasLayer(vehicleLayer)) {
+        vehicleLayer.addTo(TRANSPORT_MAP);
+      }
+    } else {
+      if (TRANSPORT_MAP.hasLayer(vehicleLayer)) {
+        TRANSPORT_MAP.removeLayer(vehicleLayer);
+      }
     }
   }
 }
@@ -680,6 +771,11 @@ function initializeTransportMap() {
   drawExactRoutes();
   drawRailLine();
   drawRailStations();
+  // Warstwy i pozycje autobusów
+  initializeBusVehicleLayers();
+  updateBusPositions();
+  initializeTrainVehicleLayer();
+updateTrainPositions();
 }
 
 async function toggleMapFullscreen() {
@@ -1402,5 +1498,1297 @@ function tab(id, btn) {
       initializeTransportMap();
     }, 0);
   }
+}
+
+function getCurrentSystemTimeSeconds() {
+  const now = new Date();
+
+  return now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+}
+
+function formatSimulationTime(totalSeconds) {
+  const normalizedSeconds = ((totalSeconds % 86400) + 86400) % 86400;
+
+  const hours = Math.floor(normalizedSeconds / 3600);
+
+  const minutes = Math.floor((normalizedSeconds % 3600) / 60);
+
+  return (
+    String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0")
+  );
+}
+
+function updateSimulationClock() {
+  const clock = document.getElementById("simulationClock");
+
+  if (!clock) {
+    return;
+  }
+
+  clock.textContent = formatSimulationTime(SIMULATION.currentTimeSeconds);
+}
+function initializeSimulation() {
+  SIMULATION.running = false;
+  SIMULATION.speed = 300;
+
+  SIMULATION.currentTimeSeconds = getCurrentSystemTimeSeconds();
+
+  SIMULATION.previousFrameTimestamp = null;
+
+  const speedSelect = document.getElementById("simulationSpeed");
+
+  if (speedSelect) {
+    speedSelect.value = "300";
+  }
+
+  updateSimulationClock();
+  updateSimulationPlayButton();
+}
+function toggleSimulation() {
+  SIMULATION.running = !SIMULATION.running;
+
+  SIMULATION.previousFrameTimestamp = null;
+
+  updateSimulationPlayButton();
+
+  if (SIMULATION.running) {
+    SIMULATION.animationFrameId = requestAnimationFrame(simulationFrame);
+  } else if (SIMULATION.animationFrameId) {
+    cancelAnimationFrame(SIMULATION.animationFrameId);
+
+    SIMULATION.animationFrameId = null;
+  }
+}
+function updateSimulationPlayButton() {
+  const button = document.getElementById("simulationPlayButton");
+
+  if (!button) {
+    return;
+  }
+
+  if (SIMULATION.running) {
+    button.textContent = "⏸ Pauza";
+    button.setAttribute("aria-label", "Zatrzymaj symulację");
+  } else {
+    button.textContent = "▶ Play";
+    button.setAttribute("aria-label", "Uruchom symulację");
+  }
+}
+function simulationFrame(timestamp) {
+  if (!SIMULATION.running) {
+    return;
+  }
+
+  if (SIMULATION.previousFrameTimestamp === null) {
+    SIMULATION.previousFrameTimestamp = timestamp;
+  }
+
+  const elapsedRealSeconds =
+    (timestamp - SIMULATION.previousFrameTimestamp) / 1000;
+
+  SIMULATION.previousFrameTimestamp = timestamp;
+
+  SIMULATION.currentTimeSeconds += elapsedRealSeconds * SIMULATION.speed;
+
+  SIMULATION.currentTimeSeconds %= 86400;
+
+  updateSimulationClock();
+
+  updateBusPositions();
+
+  updateTrainPositions();
+
+  SIMULATION.animationFrameId = requestAnimationFrame(simulationFrame);
+}
+function changeSimulationSpeed(value) {
+  SIMULATION.speed = Number(value);
+}
+function changeSimulationTime(minutes) {
+  SIMULATION.currentTimeSeconds += minutes * 60;
+
+  SIMULATION.currentTimeSeconds =
+    (SIMULATION.currentTimeSeconds + 86400) % 86400;
+
+  updateSimulationClock();
+  updateBusPositions();
+  updateTrainPositions();
+}
+function resetSimulationTime() {
+  SIMULATION.currentTimeSeconds = getCurrentSystemTimeSeconds();
+
+  SIMULATION.previousFrameTimestamp = null;
+
+  updateSimulationClock();
+  updateBusPositions();
+  updateTrainPositions();
+}
+function distanceBetweenCoordinates(first, second) {
+  const earthRadiusMeters = 6371000;
+
+  const latitude1 = (first[0] * Math.PI) / 180;
+
+  const latitude2 = (second[0] * Math.PI) / 180;
+
+  const latitudeDifference = ((second[0] - first[0]) * Math.PI) / 180;
+
+  const longitudeDifference = ((second[1] - first[1]) * Math.PI) / 180;
+
+  const value =
+    Math.sin(latitudeDifference / 2) ** 2 +
+    Math.cos(latitude1) *
+      Math.cos(latitude2) *
+      Math.sin(longitudeDifference / 2) ** 2;
+
+  return (
+    2 * earthRadiusMeters * Math.atan2(Math.sqrt(value), Math.sqrt(1 - value))
+  );
+}
+function findNearestGeometryIndex(geometryCoordinates, stop, startIndex = 0) {
+  let bestIndex = startIndex;
+  let bestDistance = Infinity;
+
+  const stopCoordinate = [stop.location.lat, stop.location.lon];
+
+  for (let index = startIndex; index < geometryCoordinates.length; index++) {
+    const distance = distanceBetweenCoordinates(
+      stopCoordinate,
+      geometryCoordinates[index],
+    );
+
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestIndex = index;
+    }
+  }
+
+  return bestIndex;
+}
+function prepareRouteAnimation(routeVariantId) {
+  if (ROUTE_ANIMATION_CACHE[routeVariantId]) {
+    return ROUTE_ANIMATION_CACHE[routeVariantId];
+  }
+
+  const route = ROUTES[routeVariantId];
+
+  const geometry = ROUTE_GEOMETRIES?.routes?.[routeVariantId];
+
+  if (!route || !geometry || !Array.isArray(geometry.coordinates)) {
+    console.warn(`Brak danych animacji dla ${routeVariantId}`);
+
+    return null;
+  }
+
+  const leafletCoordinates = geometry.coordinates.map((coordinate) => [
+    coordinate[1],
+    coordinate[0],
+  ]);
+
+  const stopGeometryIndexes = {};
+
+  let previousGeometryIndex = 0;
+
+  for (const routeStop of route.stops) {
+    const stop = STOPS[routeStop.stopId];
+
+    if (!stop?.location) {
+      continue;
+    }
+
+    const geometryIndex = findNearestGeometryIndex(
+      leafletCoordinates,
+      stop,
+      previousGeometryIndex,
+    );
+
+    stopGeometryIndexes[routeStop.stopId] = geometryIndex;
+
+    previousGeometryIndex = geometryIndex;
+  }
+
+  const preparedRoute = {
+    coordinates: leafletCoordinates,
+    stopGeometryIndexes,
+  };
+
+  ROUTE_ANIMATION_CACHE[routeVariantId] = preparedRoute;
+
+  return preparedRoute;
+}
+function getPositionAlongGeometry(coordinates, startIndex, endIndex, progress) {
+  if (startIndex >= endIndex) {
+    return coordinates[startIndex];
+  }
+
+  const segmentDistances = [];
+  let totalDistance = 0;
+
+  for (let index = startIndex; index < endIndex; index++) {
+    const distance = distanceBetweenCoordinates(
+      coordinates[index],
+      coordinates[index + 1],
+    );
+
+    segmentDistances.push(distance);
+    totalDistance += distance;
+  }
+
+  if (totalDistance === 0) {
+    return coordinates[startIndex];
+  }
+
+  const targetDistance = totalDistance * Math.max(0, Math.min(1, progress));
+
+  let travelledDistance = 0;
+
+  for (let index = 0; index < segmentDistances.length; index++) {
+    const segmentDistance = segmentDistances[index];
+
+    if (travelledDistance + segmentDistance >= targetDistance) {
+      const segmentProgress =
+        (targetDistance - travelledDistance) / segmentDistance;
+
+      const first = coordinates[startIndex + index];
+
+      const second = coordinates[startIndex + index + 1];
+
+      return [
+        first[0] + (second[0] - first[0]) * segmentProgress,
+
+        first[1] + (second[1] - first[1]) * segmentProgress,
+      ];
+    }
+
+    travelledDistance += segmentDistance;
+  }
+
+  return coordinates[endIndex];
+}
+function timeToSeconds(time) {
+  const [hours, minutes] = time.split(":").map(Number);
+
+  return hours * 3600 + minutes * 60;
+}
+function getTripTimeline(tripId) {
+  const stopTimes = TIMES[tripId] || [];
+
+  let dayOffset = 0;
+  let previousSeconds = null;
+
+  return stopTimes.map((stopTime) => {
+    let seconds = timeToSeconds(stopTime.departureTime);
+
+    if (previousSeconds !== null && seconds + dayOffset < previousSeconds) {
+      dayOffset += 86400;
+    }
+
+    seconds += dayOffset;
+    previousSeconds = seconds;
+
+    return {
+      ...stopTime,
+      seconds,
+    };
+  });
+}
+function getBusPosition(trip, simulationSeconds) {
+  const timeline = getTripTimeline(trip.tripId);
+
+  if (timeline.length < 2) {
+    return null;
+  }
+
+  let currentSeconds = simulationSeconds;
+
+  const firstTime = timeline[0].seconds;
+
+  const lastTime = timeline[timeline.length - 1].seconds;
+
+  if (currentSeconds < firstTime && lastTime >= 86400) {
+    currentSeconds += 86400;
+  }
+
+  if (currentSeconds < firstTime || currentSeconds > lastTime) {
+    return null;
+  }
+
+  const preparedRoute = prepareRouteAnimation(trip.routeVariantId);
+
+  if (!preparedRoute) {
+    return null;
+  }
+
+  for (let index = 0; index < timeline.length - 1; index++) {
+    const currentStop = timeline[index];
+
+    const nextStop = timeline[index + 1];
+
+    if (
+      currentSeconds < currentStop.seconds ||
+      currentSeconds > nextStop.seconds
+    ) {
+      continue;
+    }
+
+    const interval = nextStop.seconds - currentStop.seconds;
+
+    const progress =
+      interval > 0 ? (currentSeconds - currentStop.seconds) / interval : 1;
+
+    const startIndex = preparedRoute.stopGeometryIndexes[currentStop.stopId];
+
+    const endIndex = preparedRoute.stopGeometryIndexes[nextStop.stopId];
+
+    if (startIndex === undefined || endIndex === undefined) {
+      return null;
+    }
+
+    const position = getPositionAlongGeometry(
+      preparedRoute.coordinates,
+      startIndex,
+      endIndex,
+      progress,
+    );
+
+    return {
+      position,
+      currentStop,
+      nextStop,
+      progress,
+    };
+  }
+
+  return null;
+}
+function initializeBusVehicleLayers() {
+  for (const lineId of ["61", "62", "63", "64"]) {
+    if (!BUS_VEHICLE_LAYERS[lineId]) {
+      BUS_VEHICLE_LAYERS[lineId] = L.layerGroup().addTo(TRANSPORT_MAP);
+    }
+  }
+}
+function updateBusPositions() {
+  if (!TRANSPORT_MAP) {
+    return;
+  }
+
+  initializeBusVehicleLayers();
+
+  /*
+   * Czyścimy stare markery.
+   */
+  for (const layer of Object.values(BUS_VEHICLE_LAYERS)) {
+    layer?.clearLayers();
+  }
+
+  const simulationSeconds = SIMULATION.currentTimeSeconds;
+
+  for (const trip of DATA.physicalTrips) {
+    const result = getBusPosition(trip, simulationSeconds);
+
+    if (!result) {
+      continue;
+    }
+
+    const route = ROUTES[trip.routeVariantId];
+
+    const lineId = route.lineId;
+
+    const marker = L.marker(result.position, {
+      icon: createBusIcon(lineId),
+
+      pane: "stopsPane",
+    });
+
+    const progressPercent = Math.round(result.progress * 100);
+
+    marker.bindPopup(`
+            <div class="map-popup">
+
+                <strong>
+                    🚌 Linia ${lineId}
+                </strong>
+
+                <div>
+                    ${route.directionName}
+                </div>
+
+                <div>
+                    Kurs:
+                    ${trip.tripId}
+                </div>
+
+                <div>
+                    ${STOPS[result.currentStop.stopId].name}
+                    →
+                    ${STOPS[result.nextStop.stopId].name}
+                </div>
+
+                <div class="muted">
+                    Postęp odcinka:
+                    ${progressPercent}%
+                </div>
+
+            </div>
+        `);
+
+    marker.addTo(BUS_VEHICLE_LAYERS[lineId]);
+  }
+}
+function findNearestRailGeometryIndex(
+    geometryCoordinates,
+    station
+) {
+    let bestIndex = 0;
+    let bestDistance = Infinity;
+
+    const stationCoordinate = [
+        station.location.lat,
+        station.location.lon
+    ];
+
+    for (
+        let index = 0;
+        index < geometryCoordinates.length;
+        index++
+    ) {
+        const distance =
+            distanceBetweenCoordinates(
+                stationCoordinate,
+                geometryCoordinates[index]
+            );
+
+        if (distance < bestDistance) {
+            bestDistance = distance;
+            bestIndex = index;
+        }
+    }
+
+    return bestIndex;
+}
+function prepareRailAnimation() {
+    if (RAIL_ANIMATION_CACHE) {
+        return RAIL_ANIMATION_CACHE;
+    }
+
+    const geometry =
+        RAIL_GEOMETRY?.routes?.[
+            "WROCLAW_SWIDNICA"
+        ];
+
+    if (
+        !geometry ||
+        !Array.isArray(geometry.coordinates) ||
+        geometry.coordinates.length < 2
+    ) {
+        console.error(
+            "Brak prawidłowej geometrii kolejowej do animacji."
+        );
+
+        return null;
+    }
+
+    /*
+     * GeoJSON:
+     * [longitude, latitude]
+     *
+     * Leaflet:
+     * [latitude, longitude]
+     */
+    const coordinates =
+        geometry.coordinates.map(
+            coordinate => [
+                coordinate[1],
+                coordinate[0]
+            ]
+        );
+
+    /*
+     * Odległość narastająca od początku geometrii.
+     */
+    const cumulativeDistances = [0];
+
+    for (
+        let index = 1;
+        index < coordinates.length;
+        index++
+    ) {
+        const previousDistance =
+            cumulativeDistances[index - 1];
+
+        const segmentDistance =
+            distanceBetweenCoordinates(
+                coordinates[index - 1],
+                coordinates[index]
+            );
+
+        cumulativeDistances.push(
+            previousDistance +
+            segmentDistance
+        );
+    }
+
+    const stationGeometryIndexes = {};
+    const stationDistances = {};
+
+    for (const station of RAIL_DATA.stations) {
+        const geometryIndex =
+            findNearestRailGeometryIndex(
+                coordinates,
+                station
+            );
+
+        stationGeometryIndexes[
+            station.stationId
+        ] = geometryIndex;
+
+        stationDistances[
+            station.stationId
+        ] =
+            cumulativeDistances[
+                geometryIndex
+            ];
+    }
+
+    RAIL_ANIMATION_CACHE = {
+        coordinates,
+        cumulativeDistances,
+        totalDistance:
+            cumulativeDistances[
+                cumulativeDistances.length - 1
+            ],
+
+        stationGeometryIndexes,
+        stationDistances
+    };
+
+    console.log(
+        "Przygotowana geometria animacji kolejowej:",
+        RAIL_ANIMATION_CACHE
+    );
+
+    return RAIL_ANIMATION_CACHE;
+}
+function getPositionAtRailDistance(
+    preparedRail,
+    targetDistance
+) {
+    const distances =
+        preparedRail.cumulativeDistances;
+
+    const coordinates =
+        preparedRail.coordinates;
+
+    const normalizedDistance =
+        Math.max(
+            0,
+            Math.min(
+                preparedRail.totalDistance,
+                targetDistance
+            )
+        );
+
+    /*
+     * Szukamy odcinka geometrii,
+     * na którym znajduje się żądana odległość.
+     */
+    for (
+        let index = 0;
+        index < distances.length - 1;
+        index++
+    ) {
+        const startDistance =
+            distances[index];
+
+        const endDistance =
+            distances[index + 1];
+
+        if (
+            normalizedDistance <
+                startDistance ||
+            normalizedDistance >
+                endDistance
+        ) {
+            continue;
+        }
+
+        const segmentLength =
+            endDistance -
+            startDistance;
+
+        const progress =
+            segmentLength > 0
+                ? (
+                    normalizedDistance -
+                    startDistance
+                ) / segmentLength
+                : 0;
+
+        const first =
+            coordinates[index];
+
+        const second =
+            coordinates[index + 1];
+
+        return [
+            first[0] +
+                (
+                    second[0] -
+                    first[0]
+                ) *
+                progress,
+
+            first[1] +
+                (
+                    second[1] -
+                    first[1]
+                ) *
+                progress
+        ];
+    }
+
+    return coordinates[
+        coordinates.length - 1
+    ];
+}
+function getTrainRailAnchors(
+    train,
+    preparedRail
+) {
+    const timeline =
+        getTrainTimeline(train);
+
+    return timeline
+        .map(localStop => {
+            const distance =
+                preparedRail
+                    .stationDistances[
+                        localStop.stationId
+                    ];
+
+            if (distance === undefined) {
+                return null;
+            }
+
+            return {
+                stationId:
+                    localStop.stationId,
+
+                seconds:
+                    localStop.seconds,
+
+                distance
+            };
+        })
+        .filter(Boolean);
+}
+function getTrainSpeedMetersPerSecond(
+    firstAnchor,
+    secondAnchor
+) {
+    if (!firstAnchor || !secondAnchor) {
+        return (
+            DEFAULT_TRAIN_SPEED_KMH /
+            3.6
+        );
+    }
+
+    const timeDifference =
+        Math.abs(
+            secondAnchor.seconds -
+            firstAnchor.seconds
+        );
+
+    const distanceDifference =
+        Math.abs(
+            secondAnchor.distance -
+            firstAnchor.distance
+        );
+
+    if (
+        timeDifference <= 0 ||
+        distanceDifference <= 0
+    ) {
+        return (
+            DEFAULT_TRAIN_SPEED_KMH /
+            3.6
+        );
+    }
+
+    return (
+        distanceDifference /
+        timeDifference
+    );
+}
+function getPositionBetweenGeometryIndexes(
+    coordinates,
+    startIndex,
+    endIndex,
+    progress
+) {
+    if (startIndex === endIndex) {
+        return coordinates[startIndex];
+    }
+
+    /*
+     * Kierunek zgodny z geometrią:
+     * mniejszy indeks → większy indeks.
+     */
+    if (startIndex < endIndex) {
+        return getPositionAlongGeometry(
+            coordinates,
+            startIndex,
+            endIndex,
+            progress
+        );
+    }
+
+    /*
+     * Kierunek przeciwny:
+     * tworzymy odwrócony fragment geometrii.
+     */
+    const reversedCoordinates =
+        coordinates
+            .slice(
+                endIndex,
+                startIndex + 1
+            )
+            .reverse();
+
+    return getPositionAlongGeometry(
+        reversedCoordinates,
+        0,
+        reversedCoordinates.length - 1,
+        progress
+    );
+}
+function getTrainTimeline(train) {
+    if (
+        !train.localStops ||
+        train.localStops.length < 2
+    ) {
+        return [];
+    }
+
+    let dayOffset = 0;
+    let previousSeconds = null;
+
+    return train.localStops.map(localStop => {
+        let seconds =
+            timeToSeconds(
+                localStop.departureTime
+            );
+
+        /*
+         * Obsługa przejazdu przez północ.
+         */
+        if (
+            previousSeconds !== null &&
+            seconds + dayOffset <
+            previousSeconds
+        ) {
+            dayOffset += 86400;
+        }
+
+        seconds += dayOffset;
+        previousSeconds = seconds;
+
+        return {
+            ...localStop,
+            seconds
+        };
+    });
+}
+function getTrainPosition(
+    train,
+    simulationSeconds
+) {
+    const preparedRail =
+        prepareRailAnimation();
+
+    if (!preparedRail) {
+        return null;
+    }
+
+    const anchors =
+        getTrainRailAnchors(
+            train,
+            preparedRail
+        );
+
+    if (anchors.length === 0) {
+        return null;
+    }
+
+    let currentSeconds =
+        simulationSeconds;
+
+    /*
+     * Obsługa kursów przechodzących
+     * przez północ.
+     */
+    const firstAnchor =
+        anchors[0];
+
+    const lastAnchor =
+        anchors[
+            anchors.length - 1
+        ];
+
+    if (
+        currentSeconds <
+            firstAnchor.seconds &&
+        lastAnchor.seconds >= 86400
+    ) {
+        currentSeconds += 86400;
+    }
+
+    /*
+     * Kierunek pociągu na geometrii.
+     *
+     *  1 = Wrocław → Świdnica
+     * -1 = Świdnica → Wrocław
+     */
+    let direction = 1;
+
+    if (anchors.length >= 2) {
+        direction =
+            anchors[
+                anchors.length - 1
+            ].distance >=
+            anchors[0].distance
+                ? 1
+                : -1;
+    } else {
+        /*
+         * Dla jednego punktu próbujemy ustalić
+         * kierunek na podstawie celu podróży.
+         */
+        const destinationName =
+            train.destination
+                ?.stationName
+                ?.toLowerCase() || "";
+
+        const northboundDestinations = [
+            "wrocław",
+            "trzebnica"
+        ];
+
+        direction =
+            northboundDestinations.some(
+                name =>
+                    destinationName.includes(
+                        name
+                    )
+            )
+                ? -1
+                : 1;
+    }
+
+    /*
+     * PRZED pierwszą lokalną stacją.
+     *
+     * Ekstrapolujemy pozycję wstecz,
+     * używając prędkości z pierwszego
+     * lokalnego odcinka.
+     */
+    if (
+        currentSeconds <
+        firstAnchor.seconds
+    ) {
+        const speed =
+            anchors.length >= 2
+                ? getTrainSpeedMetersPerSecond(
+                    anchors[0],
+                    anchors[1]
+                )
+                : DEFAULT_TRAIN_SPEED_KMH /
+                    3.6;
+
+        const secondsBefore =
+            firstAnchor.seconds -
+            currentSeconds;
+
+        const estimatedDistance =
+            firstAnchor.distance -
+            direction *
+            speed *
+            secondsBefore;
+
+        if (
+            estimatedDistance < 0 ||
+            estimatedDistance >
+                preparedRail.totalDistance
+        ) {
+            return null;
+        }
+
+        return {
+            position:
+                getPositionAtRailDistance(
+                    preparedRail,
+                    estimatedDistance
+                ),
+
+            estimated: true,
+            beforeLocalSection: true,
+            direction
+        };
+    }
+
+    /*
+     * POMIĘDZY lokalnymi stacjami.
+     *
+     * Każda godzina rozkładowa jest
+     * zachowana dokładnie.
+     */
+    for (
+        let index = 0;
+        index < anchors.length - 1;
+        index++
+    ) {
+        const currentAnchor =
+            anchors[index];
+
+        const nextAnchor =
+            anchors[index + 1];
+
+        if (
+            currentSeconds <
+                currentAnchor.seconds ||
+            currentSeconds >
+                nextAnchor.seconds
+        ) {
+            continue;
+        }
+
+        const interval =
+            nextAnchor.seconds -
+            currentAnchor.seconds;
+
+        const progress =
+            interval > 0
+                ? (
+                    currentSeconds -
+                    currentAnchor.seconds
+                ) / interval
+                : 1;
+
+        const distance =
+            currentAnchor.distance +
+            (
+                nextAnchor.distance -
+                currentAnchor.distance
+            ) *
+            progress;
+
+        return {
+            position:
+                getPositionAtRailDistance(
+                    preparedRail,
+                    distance
+                ),
+
+            currentStationId:
+                currentAnchor.stationId,
+
+            nextStationId:
+                nextAnchor.stationId,
+
+            progress,
+            estimated: false,
+            direction
+        };
+    }
+
+    /*
+     * ZA ostatnią lokalną stacją.
+     *
+     * Jedziemy dalej z prędkością
+     * ostatniego lokalnego odcinka.
+     */
+    if (
+        currentSeconds >
+        lastAnchor.seconds
+    ) {
+        const previousAnchor =
+            anchors.length >= 2
+                ? anchors[
+                    anchors.length - 2
+                ]
+                : null;
+
+        const speed =
+            previousAnchor
+                ? getTrainSpeedMetersPerSecond(
+                    previousAnchor,
+                    lastAnchor
+                )
+                : DEFAULT_TRAIN_SPEED_KMH /
+                    3.6;
+
+        const secondsAfter =
+            currentSeconds -
+            lastAnchor.seconds;
+
+        const estimatedDistance =
+            lastAnchor.distance +
+            direction *
+            speed *
+            secondsAfter;
+
+        if (
+            estimatedDistance < 0 ||
+            estimatedDistance >
+                preparedRail.totalDistance
+        ) {
+            return null;
+        }
+
+        return {
+            position:
+                getPositionAtRailDistance(
+                    preparedRail,
+                    estimatedDistance
+                ),
+
+            estimated: true,
+            afterLocalSection: true,
+            direction
+        };
+    }
+
+    /*
+     * Pociąg znajduje się dokładnie
+     * na jedynej znanej lokalnej stacji.
+     */
+    if (anchors.length === 1) {
+        return {
+            position:
+                getPositionAtRailDistance(
+                    preparedRail,
+                    firstAnchor.distance
+                ),
+
+            estimated: false,
+            direction
+        };
+    }
+
+    return null;
+}
+function initializeTrainVehicleLayer() {
+    if (!TRAIN_VEHICLE_LAYER) {
+        TRAIN_VEHICLE_LAYER =
+            L.layerGroup().addTo(
+                TRANSPORT_MAP
+            );
+    }
+}
+function updateTrainPositions() {
+    if (
+        !TRANSPORT_MAP ||
+        !RAIL_DATA?.trains
+    ) {
+        return;
+    }
+
+    initializeTrainVehicleLayer();
+
+    /*
+     * Przy każdej aktualizacji usuwamy stare
+     * pozycje pociągów i rysujemy nowe.
+     */
+    TRAIN_VEHICLE_LAYER.clearLayers();
+
+    const simulationSeconds =
+        SIMULATION.currentTimeSeconds;
+
+    for (const train of RAIL_DATA.trains) {
+
+        /*
+         * Obliczamy pozycję pociągu
+         * dla aktualnego czasu symulacji.
+         */
+        const result =
+            getTrainPosition(
+                train,
+                simulationSeconds
+            );
+
+        /*
+         * null oznacza, że pociąg w tym momencie
+         * nie znajduje się na naszej geometrii.
+         */
+        if (!result) {
+            continue;
+        }
+
+        /*
+         * Przygotowujemy opis aktualnego
+         * położenia pociągu.
+         */
+        let positionDescription = "";
+
+        /*
+         * Wariant 1:
+         * jesteśmy pomiędzy dwiema stacjami
+         * w Gminie Sobótka.
+         */
+        if (
+            result.currentStationId &&
+            result.nextStationId
+        ) {
+            const currentStation =
+                RAIL_DATA.stations.find(
+                    station =>
+                        station.stationId ===
+                        result.currentStationId
+                );
+
+            const nextStation =
+                RAIL_DATA.stations.find(
+                    station =>
+                        station.stationId ===
+                        result.nextStationId
+                );
+
+            positionDescription = `
+                <div>
+                    ${
+                        currentStation?.name ||
+                        result.currentStationId
+                    }
+                    →
+                    ${
+                        nextStation?.name ||
+                        result.nextStationId
+                    }
+                </div>
+            `;
+        }
+
+        /*
+         * Wariant 2:
+         * pociąg jeszcze nie dotarł do pierwszej
+         * znanej stacji na lokalnym odcinku.
+         */
+        else if (
+            result.beforeLocalSection
+        ) {
+            positionDescription = `
+                <div>
+                    Przed wjazdem na lokalny odcinek gminy
+                </div>
+            `;
+        }
+
+        /*
+         * Wariant 3:
+         * pociąg minął ostatnią znaną
+         * stację lokalnego odcinka.
+         */
+        else if (
+            result.afterLocalSection
+        ) {
+            positionDescription = `
+                <div>
+                    Po opuszczeniu lokalnego odcinka gminy
+                </div>
+            `;
+        }
+
+        /*
+         * Tworzymy marker pociągu.
+         */
+        const marker =
+            L.marker(
+                result.position,
+                {
+                    icon:
+                        createTrainIcon(),
+
+                    pane:
+                        "stopsPane"
+                }
+            );
+
+        /*
+         * Informacja o dokładności pozycji.
+         *
+         * Na lokalnym odcinku korzystamy
+         * bezpośrednio z godzin rozkładowych.
+         *
+         * Poza lokalnym odcinkiem pozycja
+         * jest szacowana.
+         */
+        const positionAccuracyInfo =
+            result.estimated
+                ? `
+                    <div class="muted">
+                        Pozycja szacowana przy założeniu
+                        stałej prędkości.
+                    </div>
+                `
+                : `
+                    <div class="muted">
+                        Pozycja wyliczona na podstawie
+                        godzin rozkładowych.
+                    </div>
+                `;
+
+        /*
+         * Popup po kliknięciu pociągu.
+         */
+        marker.bindPopup(`
+            <div class="map-popup">
+
+                <strong>
+                    🚆 Pociąg ${train.trainId}
+                </strong>
+
+                <div>
+                    Koleje Dolnośląskie
+                    ${
+                        train.category
+                            ? ` · ${train.category}`
+                            : ""
+                    }
+                </div>
+
+                <div>
+                    Kierunek:
+                    <strong>
+                        ${train.destination.stationName}
+                    </strong>
+                </div>
+
+                ${positionDescription}
+
+                ${
+                    train.destination.arrivalTime
+                        ? `
+                            <div>
+                                Przyjazd do stacji docelowej:
+                                <strong>
+                                    ${train.destination.arrivalTime}
+                                </strong>
+                            </div>
+                        `
+                        : ""
+                }
+
+                ${positionAccuracyInfo}
+
+            </div>
+        `);
+
+        /*
+         * Dodajemy pociąg do warstwy
+         * pojazdów kolejowych.
+         */
+        marker.addTo(
+            TRAIN_VEHICLE_LAYER
+        );
+    }
 }
 init();

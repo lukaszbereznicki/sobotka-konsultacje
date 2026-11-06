@@ -796,3 +796,222 @@ a:focus-visible,
 .rail-line-color {
     background: #343a3d;
 }
+
+.simulation-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    margin: 10px 0;
+    padding: 12px 14px;
+
+    border: 1px solid var(--line);
+    border-radius: 10px;
+
+    background: #ffffff;
+}
+
+.simulation-clock {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+
+    margin-right: 6px;
+}
+
+.simulation-clock-label {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#simulationClock {
+    min-width: 64px;
+
+    color: var(--green);
+
+    font-size: 24px;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+}
+
+.simulation-play-button {
+    min-width: 96px;
+
+    border: 1px solid var(--green2);
+    border-radius: 8px;
+
+    padding: 9px 13px;
+
+    background: var(--green2);
+    color: #ffffff;
+
+    font: inherit;
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.simulation-speed {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.simulation-speed select {
+    width: 240px;
+    min-height: 38px;
+}
+
+.simulation-time-button {
+    min-height: 38px;
+
+    border: 1px solid var(--line);
+    border-radius: 8px;
+
+    padding: 8px 11px;
+
+    background: #ffffff;
+    color: var(--ink);
+
+    font: inherit;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.simulation-time-button:hover {
+    background: #edf3f0;
+}
+
+#mapFullscreenContainer:fullscreen
+.simulation-controls {
+    flex: 0 0 auto;
+
+    margin: 0;
+    padding: 10px 70px 10px 16px;
+
+    border: none;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+
+    background: #ffffff;
+
+    z-index: 1001;
+}
+.bus-map-marker {
+    background: transparent;
+    border: none;
+}
+
+.bus-map-marker-inner {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    border: 3px solid;
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 2px 8px
+        rgba(0, 0, 0, 0.35);
+}
+
+.bus-map-marker-icon {
+    font-size: 19px;
+    line-height: 1;
+}
+
+.bus-map-marker-line {
+    position: absolute;
+
+    right: -9px;
+    bottom: -5px;
+
+    min-width: 24px;
+    height: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 5px;
+
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+
+    color: #ffffff;
+
+    font-size: 11px;
+    font-weight: 900;
+
+    line-height: 1;
+}
+
+.train-map-marker {
+    background: transparent;
+    border: none;
+}
+
+.train-map-marker-inner {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    border: 3px solid #343a3d;
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 2px 8px
+        rgba(0, 0, 0, 0.38);
+}
+
+.train-map-marker-icon {
+    font-size: 19px;
+    line-height: 1;
+}
+
+.train-map-marker-label {
+    position: absolute;
+
+    right: -10px;
+    bottom: -5px;
+
+    min-width: 25px;
+    height: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 5px;
+
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+
+    background: #343a3d;
+    color: #ffffff;
+
+    font-size: 10px;
+    font-weight: 900;
+
+    line-height: 1;
+}
