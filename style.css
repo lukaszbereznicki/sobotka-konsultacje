@@ -345,28 +345,6 @@ a:focus-visible,
   background: #e8f0ec;
 }
 
-.chips {
-  display: flex;
-  gap: 7px;
-  flex-wrap: wrap;
-}
-
-.chip {
-  border: 1px solid #aebeb8;
-  border-radius: 999px;
-  padding: 8px 11px;
-  background: #ffffff;
-  color: var(--ink);
-  cursor: pointer;
-}
-
-.chip.active {
-  border-color: var(--green2);
-  background: #dfeee8;
-  color: #12352b;
-  font-weight: 700;
-}
-
 .success {
   margin-top: 10px;
   padding: 12px;
@@ -386,22 +364,49 @@ a:focus-visible,
 }
 
 .stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+
+    margin: 20px 0 26px;
 }
 
 .stat {
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: #f5f8f6;
+    min-height: 95px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 14px;
+
+    border: 1px solid var(--line);
+    border-radius: 12px;
+
+    background: #f5f8f6;
 }
 
 .stat b {
-  display: block;
-  color: var(--green);
-  font-size: 24px;
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--green);
+
+    font-size: 24px;
+}
+
+.stat span {
+    color: var(--muted);
+    line-height: 1.35;
+}
+
+.rail-stat {
+    background: #eef3f4;
+}
+
+.rail-stat > b {
+    color: #343a3d;
 }
 
 .routeCard {
@@ -1014,4 +1019,304 @@ a:focus-visible,
     font-weight: 900;
 
     line-height: 1;
+}
+.about-project {
+    line-height: 1.65;
+}
+
+.about-intro {
+    max-width: 850px;
+
+    color: var(--green);
+
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.about-section {
+    max-width: 880px;
+
+    margin-top: 28px;
+    padding-top: 22px;
+
+    border-top: 1px solid var(--line);
+}
+
+.about-section h3 {
+    margin: 0 0 10px;
+
+    color: var(--green);
+}
+
+.about-section p {
+    margin: 8px 0;
+}
+
+.about-section ul {
+    margin: 10px 0;
+    padding-left: 24px;
+}
+
+.about-section li {
+    margin: 5px 0;
+}
+
+.about-example,
+.about-note {
+    margin: 14px 0;
+    padding: 12px 14px;
+
+    border-left: 4px solid var(--green2);
+    border-radius: 0 8px 8px 0;
+
+    background: #f2f7f4;
+}
+
+.about-important {
+    padding: 18px;
+
+    border: 1px solid #d8b9ad;
+    border-left: 5px solid var(--orange);
+    border-radius: 10px;
+
+    background: var(--notice-bg);
+}
+
+.about-important h3 {
+    color: #833217;
+}
+
+.feedback-card {
+    max-width: 1100px;
+}
+
+.feedback-header {
+    max-width: 820px;
+
+    margin-bottom: 26px;
+}
+
+.feedback-header h2 {
+    margin-bottom: 8px;
+}
+
+.feedback-section {
+    margin-top: 24px;
+    padding-top: 22px;
+
+    border-top: 1px solid var(--line);
+}
+
+.feedback-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    margin: 0 0 16px;
+
+    color: var(--green);
+}
+
+.feedback-step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 28px;
+    height: 28px;
+
+    flex: 0 0 28px;
+
+    border-radius: 50%;
+
+    background: var(--green2);
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.feedback-question-help {
+    margin-top: -8px;
+    margin-bottom: 14px;
+}
+
+
+/*
+ * Ocena projektu
+ */
+
+.assessment-options {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 12px;
+
+    max-width: 900px;
+}
+
+.assessment-option {
+    position: relative;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+
+    min-height: 82px;
+
+    padding: 14px;
+
+    border: 1px solid #aebeb8;
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+/*
+ * Ukrywamy standardowy radio button,
+ * ale pozostaje dostępny dla klawiatury
+ * i czytników ekranu.
+ */
+
+.assessment-option input[type="radio"] {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+    min-height: 0;
+
+    margin: 0;
+
+    opacity: 0;
+}
+
+
+/*
+ * Nasz własny mały radio button.
+ */
+
+.assessment-control {
+    width: 20px;
+    height: 20px;
+
+    flex: 0 0 20px;
+
+    margin-top: 2px;
+
+    border: 2px solid #758b83;
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    box-shadow:
+        inset 0 0 0 4px #ffffff;
+}
+
+.assessment-option
+input[type="radio"]:checked
++
+.assessment-control {
+    border-color: var(--green2);
+    background: var(--green2);
+}
+
+.assessment-option:has(
+    input[type="radio"]:checked
+) {
+    border-color: var(--green2);
+
+    background: #eef6f2;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(31, 90, 70, 0.12);
+}
+
+.assessment-option:has(
+    input[type="radio"]:focus-visible
+) {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+}
+
+.assessment-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    line-height: 1.35;
+}
+
+.assessment-text strong {
+    color: var(--ink);
+}
+
+.assessment-text small {
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+/*
+ * Komentarz
+ */
+
+.optional-label {
+    margin-left: 5px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.feedback-section textarea {
+    min-height: 120px;
+}
+
+
+/*
+ * Przyciski na końcu
+ */
+
+.feedback-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    margin-top: 22px;
+    padding-top: 20px;
+
+    border-top: 1px solid var(--line);
+}
+
+
+@media (max-width: 760px) {
+
+    .assessment-options {
+        grid-template-columns: 1fr;
+    }
+
+    .assessment-option {
+        min-height: auto;
+    }
+
+    .feedback-actions {
+        flex-direction: column;
+    }
+
+    .feedback-actions .btn {
+        width: 100%;
+    }
 }

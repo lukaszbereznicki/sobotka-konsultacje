@@ -259,87 +259,497 @@
     </section>
     </section>
     <section id="feedback" class="view">
-      <div class="card">
-        <h2>Czy projekt odpowiada Twoim potrzebom?</h2>
-        <div class="grid2">
-          <div class="field">
-            <label>Skąd najczęściej rozpoczynasz podróż?</label><select id="feedbackOrigin"></select>
-          </div>
-          <div class="field">
-            <label>Dokąd najczęściej jedziesz?</label><select id="feedbackDestination"></select>
-          </div>
-          <div class="field">
-            <label>Potrzebuję</label><select id="feedbackMode">
-              <option value="departure">wyjechać około</option>
-              <option value="arrival">dotrzeć około</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Pożądana godzina</label><input type="time" id="feedbackTime" />
-          </div>
-          <div class="field">
-            <label>Cel podróży</label><select id="purpose">
-              <option value="">Wybierz…</option>
-              <option value="work">Praca</option>
-              <option value="school">Szkoła / nauka</option>
-              <option value="healthcare">Lekarz / zdrowie</option>
-              <option value="shopping">Zakupy</option>
-              <option value="official_business">
-                Urząd / sprawy formalne
-              </option>
-              <option value="connections">Przesiadka / dalsza podróż</option>
-              <option value="other">Inny</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Jaka godzina byłaby lepsza?</label><input type="time" id="preferredTime" />
-          </div>
+      <div class="card feedback-card">
+
+        <div class="feedback-header">
+          <h2>Czy projekt odpowiada Twoim potrzebom?</h2>
+
+          <p class="muted">
+            Opisz przykładową podróż, którą wykonujesz lub chciałbyś
+            wykonywać komunikacją gminną. Pomoże to ocenić, czy
+            proponowane połączenia i godziny odpowiadają realnym
+            potrzebom mieszkańców.
+          </p>
         </div>
-        <h3>Jak oceniasz projekt dla tej potrzeby?</h3>
-        <div class="chips">
-          <label class="chip"><input type="radio" name="assessment" value="suitable" />
-            Odpowiada</label><label class="chip"><input type="radio" name="assessment" value="partially_suitable" />
-            Częściowo</label><label class="chip"><input type="radio" name="assessment" value="not_suitable" /> Nie
-            odpowiada</label>
+
+        <div class="feedback-section">
+
+          <h3>
+            <span class="feedback-step">1</span>
+            Opisz swoją podróż
+          </h3>
+
+          <div class="grid2">
+
+            <div class="field">
+              <label for="feedbackOrigin">
+                Skąd najczęściej rozpoczynasz podróż?
+              </label>
+
+              <select id="feedbackOrigin"></select>
+            </div>
+
+            <div class="field">
+              <label for="feedbackDestination">
+                Dokąd najczęściej jedziesz?
+              </label>
+
+              <select id="feedbackDestination"></select>
+            </div>
+
+            <div class="field">
+              <label for="feedbackMode">
+                Co jest dla Ciebie ważne?
+              </label>
+
+              <select id="feedbackMode">
+                <option value="departure">
+                  Chcę wyjechać około
+                </option>
+
+                <option value="arrival">
+                  Chcę dotrzeć około
+                </option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="feedbackTime">
+                Pożądana godzina
+              </label>
+
+              <input type="time" id="feedbackTime">
+            </div>
+
+            <div class="field">
+              <label for="purpose">
+                Cel podróży
+              </label>
+
+              <select id="purpose">
+                <option value="">
+                  Wybierz…
+                </option>
+
+                <option value="work">
+                  Praca
+                </option>
+
+                <option value="school">
+                  Szkoła / nauka
+                </option>
+
+                <option value="healthcare">
+                  Lekarz / zdrowie
+                </option>
+
+                <option value="shopping">
+                  Zakupy
+                </option>
+
+                <option value="official_business">
+                  Urząd / sprawy formalne
+                </option>
+
+                <option value="connections">
+                  Przesiadka / dalsza podróż
+                </option>
+
+                <option value="other">
+                  Inny
+                </option>
+              </select>
+            </div>
+
+          </div>
+
         </div>
-        <h3>Jeżeli nie, czego brakuje?</h3>
-        <div class="chips">
-          <button class="chip" onclick="toggleProblem(this, 'too_early')">
-            Za wcześnie</button><button class="chip" onclick="toggleProblem(this, 'too_late')">
-            Za późno</button><button class="chip" onclick="toggleProblem(this, 'no_trip_near_needed_time')">
-            Brak kursu w potrzebnej godzinie</button><button class="chip"
-            onclick="toggleProblem(this, 'journey_too_long')">
-            Podróż za długa</button><button class="chip" onclick="toggleProblem(this, 'wrong_route')">
-            Nieodpowiedni przebieg</button><button class="chip" onclick="toggleProblem(this, 'missing_stop')">
-            Brak przystanku</button><button class="chip" onclick="toggleProblem(this, 'other')">
-            Inne
+
+
+        <div class="feedback-section">
+
+          <h3>
+            <span class="feedback-step">2</span>
+            Czy projekt odpowiada tej potrzebie?
+          </h3>
+
+          <p class="muted feedback-question-help">
+            Oceń dostępne połączenia, godziny kursowania i czas podróży.
+          </p>
+
+          <div class="assessment-options">
+
+            <label class="assessment-option">
+              <input type="radio" name="assessment" value="suitable">
+
+              <span class="assessment-control"></span>
+
+              <span class="assessment-text">
+                <strong>Tak</strong>
+                <small>
+                  Projekt odpowiada mojej potrzebie
+                </small>
+              </span>
+            </label>
+
+
+            <label class="assessment-option">
+              <input type="radio" name="assessment" value="partially_suitable">
+
+              <span class="assessment-control"></span>
+
+              <span class="assessment-text">
+                <strong>Częściowo</strong>
+                <small>
+                  Mogę skorzystać, ale nie jest to idealne rozwiązanie
+                </small>
+              </span>
+            </label>
+
+
+            <label class="assessment-option">
+              <input type="radio" name="assessment" value="not_suitable">
+
+              <span class="assessment-control"></span>
+
+              <span class="assessment-text">
+                <strong>Nie</strong>
+                <small>
+                  Projekt nie odpowiada mojej potrzebie
+                </small>
+              </span>
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <div class="feedback-section">
+
+          <h3>
+            <span class="feedback-step">3</span>
+            Chcesz coś dodać?
+          </h3>
+
+          <div class="field">
+            <label for="comment">
+              Dodatkowy komentarz
+              <span class="optional-label">
+                opcjonalnie
+              </span>
+            </label>
+
+            <textarea id="comment"
+              placeholder="Możesz opisać np. brakujące połączenie, nieodpowiednią godzinę kursu albo inną potrzebę związaną z komunikacją."></textarea>
+          </div>
+
+        </div>
+
+
+        <div class="feedback-actions">
+
+          <button class="btn orange" onclick="saveFeedback()">
+            Zapisz opinię
           </button>
+
+          <button class="btn" onclick="exportFeedback()">
+            Eksportuj zapisane odpowiedzi JSON
+          </button>
+
         </div>
-        <div class="field" style="margin-top: 14px">
-          <label>Dodatkowy komentarz</label><textarea id="comment"
-            placeholder="Opcjonalnie opisz swoją potrzebę..."></textarea>
-        </div>
-        <button class="btn orange" onclick="saveFeedback()">
-          Zapisz opinię
-        </button>
-        <button class="btn" onclick="exportFeedback()">
-          Eksportuj zapisane odpowiedzi JSON
-        </button>
+
         <div id="feedbackStatus"></div>
+
       </div>
     </section>
     <section id="about" class="view">
-      <div class="card">
+      <div class="card about-project">
+
         <h2>O projekcie</h2>
-        <div id="stats" class="stats"></div>
+
+        <p class="about-intro">
+          Ta strona prezentuje projekt nowej komunikacji autobusowej
+          dla Gminy Sobótka. Projekt jest na etapie konsultacji i nie
+          stanowi obowiązującego rozkładu jazdy.
+        </p>
+
         <p>
-          Prezentowane dane są projektem komunikacji i służą konsultacjom. Nie
-          stanowią obowiązującego rozkładu jazdy.
+          Celem strony jest umożliwienie mieszkańcom praktycznego
+          sprawdzenia, czy zaproponowane linie, przystanki i godziny
+          kursowania odpowiadają ich codziennym potrzebom.
         </p>
-        <p class="muted">
-          W tej wersji demonstracyjnej odpowiedzi mieszkańców są przechowywane
-          tylko lokalnie w przeglądarce. Nie są wysyłane na serwer.
-        </p>
+
+        <div id="stats" class="stats"></div>
+
+
+        <div class="about-section">
+          <h3>🚌 Co obejmuje projekt?</h3>
+
+          <p>
+            Projekt zakłada funkcjonowanie czterech gminnych linii
+            autobusowych: <strong>61, 62, 63 i 64</strong>.
+            Linie łączą miejscowości Gminy Sobótka z Sobótką oraz
+            innymi miejscowościami znajdującymi się na ich trasach.
+          </p>
+
+          <p>
+            Dla każdej linii możesz sprawdzić oba kierunki jazdy,
+            kolejność przystanków oraz proponowane godziny odjazdów.
+          </p>
+        </div>
+
+
+        <div class="about-section">
+          <h3>🔎 Znajdź połączenie</h3>
+
+          <p>
+            W zakładce <strong>„Znajdź połączenie”</strong> wybierz
+            przystanek początkowy i docelowy oraz godzinę, o której
+            chcesz rozpocząć albo zakończyć podróż.
+          </p>
+
+          <p>
+            Strona pokaże połączenia znajdujące się najbliżej
+            wskazanej godziny. Jeżeli bezpośredni przejazd nie jest
+            możliwy, aplikacja może również wskazać połączenie
+            wymagające przesiadki pomiędzy liniami.
+          </p>
+
+          <p class="about-example">
+            Przykład: możesz sprawdzić, jak projekt pozwala dojechać
+            rano z Rękowa do Sobótki albo po południu wrócić
+            z Sobótki do swojej miejscowości.
+          </p>
+        </div>
+
+
+        <div class="about-section">
+          <h3>🚏 Mój przystanek</h3>
+
+          <p>
+            Jeżeli interesuje Cię przede wszystkim komunikacja
+            w Twojej miejscowości, wybierz zakładkę
+            <strong>„Mój przystanek”</strong>.
+          </p>
+
+          <p>
+            Po wskazaniu przystanku zobaczysz wszystkie projektowane
+            odjazdy autobusów z tego miejsca wraz z numerem linii
+            i kierunkiem jazdy.
+          </p>
+
+          <p>
+            Przy przystankach położonych w pobliżu kolei zobaczysz
+            również oznaczenie 🚆 oraz informację o najbliższej
+            stacji kolejowej, orientacyjnej odległości i czasie
+            dojścia pieszo.
+          </p>
+        </div>
+
+
+        <div class="about-section">
+          <h3>🚌 Linie 61–64</h3>
+
+          <p>
+            Zakładka <strong>„Linie 61–64”</strong> pozwala obejrzeć
+            pełne rozkłady wszystkich projektowanych linii.
+          </p>
+
+          <p>
+            Najpierw wybierz linię i kierunek. Następnie zobaczysz
+            tabelę z kolejnymi przystankami i godzinami przejazdu
+            wszystkich zaplanowanych kursów.
+          </p>
+
+          <p>
+            Symbol 🚆 przy nazwie przystanku oznacza możliwość
+            dojścia z tego przystanku do stacji kolejowej.
+          </p>
+        </div>
+
+
+        <div class="about-section">
+          <h3>🗺️ Interaktywna mapa</h3>
+
+          <p>
+            Zakładka <strong>„Mapa”</strong> pokazuje cały projekt
+            komunikacji na rzeczywistej mapie Gminy Sobótka.
+          </p>
+
+          <p>Na mapie możesz zobaczyć:</p>
+
+          <ul>
+            <li>wszystkie przystanki autobusowe objęte projektem,</li>
+            <li>przebieg linii autobusowych 61, 62, 63 i 64,</li>
+            <li>stacje kolejowe w Rogowie Sobóckim, Sobótce i Sobótce Zachodniej,</li>
+            <li>przebieg linii kolejowej Wrocław – Świdnica,</li>
+            <li>projektowane kursy autobusów i ruch pociągów podczas symulacji.</li>
+          </ul>
+
+          <p>
+            Kliknięcie przystanku pokaże jego nazwę i obsługujące
+            go linie. Kliknięcie stacji kolejowej pozwala sprawdzić
+            dostępne odjazdy pociągów.
+          </p>
+        </div>
+
+
+        <div class="about-section">
+          <h3>👁️ Włączanie i wyłączanie elementów mapy</h3>
+
+          <p>
+            Nad mapą znajduje się panel
+            <strong>„Widoczność na mapie”</strong>.
+            Możesz w nim sam zdecydować, jakie informacje chcesz
+            aktualnie oglądać.
+          </p>
+
+          <p>Możesz niezależnie pokazywać lub ukrywać:</p>
+
+          <ul>
+            <li>przystanki autobusowe,</li>
+            <li>stacje kolejowe,</li>
+            <li>linię kolejową,</li>
+            <li>linię autobusową 61,</li>
+            <li>linię autobusową 62,</li>
+            <li>linię autobusową 63,</li>
+            <li>linię autobusową 64.</li>
+          </ul>
+
+          <p>
+            Przyciskiem ⛶ możesz otworzyć mapę na pełnym ekranie.
+            Klawisz <strong>Esc</strong> pozwala wrócić do zwykłego
+            widoku strony.
+          </p>
+        </div>
+
+
+        <div class="about-section">
+          <h3>▶ Symulacja komunikacji</h3>
+
+          <p>
+            Mapa posiada zegar umożliwiający zobaczenie, jak
+            projektowana komunikacja działa w ciągu dnia.
+          </p>
+
+          <p>
+            Po otwarciu mapy symulacja jest zatrzymana, a zegar
+            pokazuje aktualną godzinę.
+          </p>
+
+          <p>
+            Kliknij <strong>„Play”</strong>, aby uruchomić upływ
+            czasu. Na mapie pojawią się autobusy i pociągi
+            kursujące o danej porze.
+          </p>
+
+          <p>
+            Możesz zmieniać prędkość symulacji, przesuwać czas
+            o godzinę do przodu lub do tyłu oraz użyć przycisku
+            <strong>„Teraz”</strong>, aby wrócić do aktualnej godziny.
+          </p>
+
+          <div class="about-note">
+            <strong>Ważne:</strong>
+            animacja przedstawia planowany ruch pojazdów wynikający
+            z rozkładów jazdy. Nie pokazuje rzeczywistej lokalizacji
+            autobusu lub pociągu ani bieżących opóźnień.
+          </div>
+        </div>
+
+
+        <div class="about-section">
+          <h3>🚆 Autobus i kolej</h3>
+
+          <p>
+            Jednym z elementów projektu jest możliwość wykorzystania
+            komunikacji autobusowej do dojazdu w pobliże stacji
+            kolejowych.
+          </p>
+
+          <p>
+            Na mapie pokazane są trzy stacje kolejowe znajdujące się
+            na terenie gminy:
+          </p>
+
+          <ul>
+            <li>Rogów Sobócki,</li>
+            <li>Sobótka,</li>
+            <li>Sobótka Zachodnia.</li>
+          </ul>
+
+          <p>
+            Dzięki temu możesz sprawdzić nie tylko sam przejazd
+            autobusem, ale również ocenić, czy zaproponowane godziny
+            kursów umożliwiają wygodne dalsze podróżowanie koleją.
+          </p>
+        </div>
+
+
+        <div class="about-section">
+          <h3>💬 Oceń projekt</h3>
+
+          <p>
+            Najważniejszym celem strony jest zebranie informacji
+            o rzeczywistych potrzebach mieszkańców.
+          </p>
+
+          <p>
+            W zakładce <strong>„Oceń projekt”</strong> możesz
+            wskazać:
+          </p>
+
+          <ul>
+            <li>skąd najczęściej podróżujesz,</li>
+            <li>dokąd potrzebujesz dojechać,</li>
+            <li>o której godzinie potrzebujesz rozpocząć lub zakończyć podróż,</li>
+            <li>jaki jest cel podróży,</li>
+            <li>czy projekt odpowiada Twojej potrzebie,</li>
+            <li>czego brakuje, jeżeli zaproponowane połączenie Ci nie odpowiada,</li>
+            <li>jaka godzina kursu byłaby dla Ciebie lepsza.</li>
+          </ul>
+
+          <p>
+            Możesz również dopisać własny komentarz.
+          </p>
+        </div>
+
+
+        <div class="about-section about-important">
+          <h3>⚠️ Pamiętaj: to jest projekt</h3>
+
+          <p>
+            Prezentowane linie, przystanki i godziny kursowania
+            nie są obecnie obowiązującym rozkładem jazdy.
+          </p>
+
+          <p>
+            Strona służy temu, aby przed ewentualnym wdrożeniem
+            projektu mieszkańcy mogli go dokładnie obejrzeć,
+            sprawdzić na własnych przykładach i wskazać elementy,
+            które wymagają poprawy.
+          </p>
+        </div>
+
+
+        <div class="about-section">
+          <h3>🔒 Co dzieje się z moją opinią?</h3>
+
+          <p>
+            W obecnej wersji demonstracyjnej zapisane odpowiedzi
+            pozostają lokalnie w przeglądarce na Twoim urządzeniu.
+            Nie są automatycznie wysyłane do Urzędu ani zapisywane
+            w centralnej bazie danych.
+          </p>
+
+          <p>
+            Funkcja centralnego zbierania odpowiedzi zostanie
+            przygotowana przed rozpoczęciem właściwych konsultacji
+            społecznych.
+          </p>
+        </div>
+
       </div>
     </section>
   </main>
