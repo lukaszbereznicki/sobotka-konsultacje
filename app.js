@@ -1413,43 +1413,71 @@ function showSchedule(rid) {
 function renderStats() {
   const railStationsCount = RAIL_DATA?.stations?.length || 0;
 
-  const trainsCount = RAIL_DATA?.trains?.length || 0;
-
   $("stats").innerHTML = `
-        <div class="stat">
+
+        <div class="stat stat-bus">
+            <div class="stat-icon">🚌</div>
+
             <b>${DATA.lines.length}</b>
-            <span>linie autobusowe</span>
-        </div>
 
-        <div class="stat">
-            <b>${DATA.stops.length}</b>
-            <span>przystanków autobusowych</span>
-        </div>
-
-        <div class="stat">
-            <b>${DATA.routeVariants.length}</b>
-            <span>kierunków tras</span>
-        </div>
-
-        <div class="stat">
-            <b>${DATA.physicalTrips.length}</b>
-            <span>projektowane kursy autobusów</span>
-        </div>
-
-        <div class="stat rail-stat">
-            <b>🚆 ${railStationsCount}</b>
-            <span>dworce kolejowe w Gminie Sobótka</span>
-        </div>
-
-        <div class="stat rail-stat">
-            <b>🚆</b>
             <span>
-                Rozkład jazdy pociągów<br>
-                <strong>Wrocław – Świdnica – Wrocław</strong>
+                linie autobusowe
+            </span>
+        </div>
+
+        <div class="stat stat-stop">
+            <div class="stat-icon">🚏</div>
+
+            <b>${DATA.stops.length}</b>
+
+            <span>
+                przystanków autobusowych
+            </span>
+        </div>
+
+        <div class="stat stat-route">
+            <div class="stat-icon">↔️</div>
+
+            <b>${DATA.routeVariants.length}</b>
+
+            <span>
+                kierunków tras
+            </span>
+        </div>
+
+        <div class="stat stat-trips">
+            <div class="stat-icon">🕐</div>
+
+            <b>${DATA.physicalTrips.length}</b>
+
+            <span>
+                projektowane kursy autobusów
+            </span>
+        </div>
+
+        <div class="stat stat-rail">
+            <div class="stat-icon">🚆</div>
+
+            <b>${railStationsCount}</b>
+
+            <span>
+                dworce kolejowe w Gminie Sobótka
+            </span>
+        </div>
+
+        <div class="stat stat-rail-route">
+            <div class="stat-icon">🛤️</div>
+
+            <b>1</b>
+
+            <span>
+                linia Kolei Dolnośląskich<br>
+                na trasie Wrocław – Świdnica
             </span>
         </div>
     `;
 }
+
 function saveFeedback() {
   let assessment = document.querySelector(
     "input[name=assessment]:checked",
@@ -2534,5 +2562,47 @@ function updateTrainPositions() {
      */
     marker.addTo(TRAIN_VEHICLE_LAYER);
   }
+}
+function openFindFromAbout() {
+  const button = Array.from(document.querySelectorAll(".tabs button")).find(
+    (button) => button.textContent.includes("Znajdź połączenie"),
+  );
+
+  if (button) {
+    tab("find", button);
+  }
+}
+
+function openStopFromAbout() {
+  const button = Array.from(document.querySelectorAll(".tabs button")).find(
+    (button) => button.textContent.includes("Mój przystanek"),
+  );
+
+  if (button) {
+    tab("stop", button);
+  }
+}
+
+function openMapFromAbout() {
+  const button = Array.from(document.querySelectorAll(".tabs button")).find(
+    (button) => button.textContent.includes("Mapa"),
+  );
+
+  if (button) {
+    tab("mapView", button);
+  }
+}
+
+function openFeedbackFromAbout() {
+    const button = Array.from(
+        document.querySelectorAll(".tabs button")
+    ).find(
+        button =>
+            button.textContent.includes("Oceń projekt")
+    );
+
+    if (button) {
+        tab("feedback", button);
+    }
 }
 init();

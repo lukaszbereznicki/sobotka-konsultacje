@@ -21,39 +21,35 @@
     </div>
   </header>
   <main>
-    <section class="hero">
-      <div class="card">
-        <h1>Sprawdź, co projekt komunikacji oferuje Tobie</h1>
-        <p>
-          To nie jest obowiązujący rozkład jazdy. Strona prezentuje projekt
-          czterech linii autobusowych 61–64 i pomaga ocenić, czy proponowane
-          połączenia odpowiadają potrzebom mieszkańców.
-        </p>
-        <button class="btn orange" onclick="tab('find', document.querySelectorAll('.tabs button')[0])">
-          Sprawdź połączenie
-        </button>
-      </div>
-      <div class="card notice">
-        <b>Najpierw sprawdź ofertę, potem ją oceń</b>
-        <p>
-          Wybierz interesujące Cię przystanki i godzinę. Na końcu możesz
-          wskazać, czego w projekcie brakuje.
-        </p>
-      </div>
-    </section>
+
     <nav class="tabs">
-      <button class="active" onclick="tab('find', this)">
+
+      <button class="active" onclick="tab('about', this)">
+        ℹ️ O projekcie
+      </button>
+
+      <button onclick="tab('find', this)">
         🔎 Znajdź połączenie
       </button>
-      <button onclick="tab('stop', this)">🚏 Mój przystanek</button>
-      <button onclick="tab('routes', this)">🚌 Linie 61–64</button>
+
+      <button onclick="tab('stop', this)">
+        🚏 Mój przystanek
+      </button>
+
+      <button onclick="tab('routes', this)">
+        🚌 Linie 61–64
+      </button>
+
       <button onclick="tab('mapView', this)">
         🗺️ Mapa
       </button>
-      <button onclick="tab('feedback', this)">💬 Oceń projekt</button><button onclick="tab('about', this)">ℹ️ O
-        projekcie</button>
+
+      <button onclick="tab('feedback', this)">
+        💬 Oceń projekt
+      </button>
+
     </nav>
-    <section id="find" class="view active">
+    <section id="find" class="view">
       <div class="card">
         <h2>Znajdź proponowane połączenie</h2>
         <div class="grid2">
@@ -463,293 +459,445 @@
 
       </div>
     </section>
-    <section id="about" class="view">
+    <section id="about" class="view active">
       <div class="card about-project">
 
-        <h2>O projekcie</h2>
+        <div class="about-hero">
 
-        <p class="about-intro">
-          Ta strona prezentuje projekt nowej komunikacji autobusowej
-          dla Gminy Sobótka. Projekt jest na etapie konsultacji i nie
-          stanowi obowiązującego rozkładu jazdy.
-        </p>
+          <div class="about-hero-overlay"></div>
 
-        <p>
-          Celem strony jest umożliwienie mieszkańcom praktycznego
-          sprawdzenia, czy zaproponowane linie, przystanki i godziny
-          kursowania odpowiadają ich codziennym potrzebom.
-        </p>
+          <div class="about-hero-content">
+
+            <span class="about-hero-label">
+              PROJEKT DO KONSULTACJI
+            </span>
+
+            <h1>
+              Nowa komunikacja<br>
+              Gminy Sobótka
+            </h1>
+
+            <p>
+              Sprawdź proponowane połączenia autobusowe,
+              możliwości dojazdu do kolei i zobacz,
+              jak projekt może działać w Twoich
+              codziennych podróżach.
+            </p>
+
+            <div class="about-hero-actions">
+
+              <button class="btn orange" onclick="openFindFromAbout()">
+                🔎 Sprawdź połączenie
+              </button>
+
+              <button class="btn about-hero-secondary" onclick="openMapFromAbout()">
+                🗺️ Otwórz mapę
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="about-section-heading">
+          <span>PROJEKT W LICZBACH</span>
+
+          <h2>Co obejmuje projekt?</h2>
+
+          <p>
+            Najważniejsze liczby opisujące proponowaną komunikację
+            autobusową oraz jej powiązanie z koleją.
+          </p>
+        </div>
 
         <div id="stats" class="stats"></div>
+        <div class="about-section-heading about-features-heading">
+          <span>POZNAJ PROJEKT</span>
 
-
-        <div class="about-section">
-          <h3>🚌 Co obejmuje projekt?</h3>
-
-          <p>
-            Projekt zakłada funkcjonowanie czterech gminnych linii
-            autobusowych: <strong>61, 62, 63 i 64</strong>.
-            Linie łączą miejscowości Gminy Sobótka z Sobótką oraz
-            innymi miejscowościami znajdującymi się na ich trasach.
-          </p>
+          <h2>Co możesz tutaj zrobić?</h2>
 
           <p>
-            Dla każdej linii możesz sprawdzić oba kierunki jazdy,
-            kolejność przystanków oraz proponowane godziny odjazdów.
+            Sprawdź projekt na własnym przykładzie. Wybierz interesujące
+            Cię połączenie, zobacz rozkład swojego przystanku albo poznaj
+            cały układ komunikacji na interaktywnej mapie.
           </p>
         </div>
+        <div class="about-feature-grid">
+
+          <div class="about-feature-card">
+
+            <div class="about-feature-icon">
+              🔎
+            </div>
+
+            <div class="about-feature-content">
+
+              <h3>Znajdź połączenie</h3>
+
+              <p>
+                Wybierz przystanek początkowy i docelowy oraz
+                interesującą Cię godzinę. Sprawdź, jakie połączenia
+                oferuje projekt.
+              </p>
+
+              <button class="about-feature-link" onclick="openFindFromAbout()">
+                Sprawdź połączenie →
+              </button>
+
+            </div>
+
+          </div>
 
 
-        <div class="about-section">
-          <h3>🔎 Znajdź połączenie</h3>
+          <div class="about-feature-card">
 
-          <p>
-            W zakładce <strong>„Znajdź połączenie”</strong> wybierz
-            przystanek początkowy i docelowy oraz godzinę, o której
-            chcesz rozpocząć albo zakończyć podróż.
-          </p>
+            <div class="about-feature-icon">
+              🚏
+            </div>
 
-          <p>
-            Strona pokaże połączenia znajdujące się najbliżej
-            wskazanej godziny. Jeżeli bezpośredni przejazd nie jest
-            możliwy, aplikacja może również wskazać połączenie
-            wymagające przesiadki pomiędzy liniami.
-          </p>
+            <div class="about-feature-content">
 
-          <p class="about-example">
-            Przykład: możesz sprawdzić, jak projekt pozwala dojechać
-            rano z Rękowa do Sobótki albo po południu wrócić
-            z Sobótki do swojej miejscowości.
-          </p>
-        </div>
+              <h3>Mój przystanek</h3>
 
+              <p>
+                Wybierz konkretny przystanek i zobacz wszystkie
+                projektowane odjazdy, obsługujące go linie oraz
+                możliwości dojścia do kolei.
+              </p>
 
-        <div class="about-section">
-          <h3>🚏 Mój przystanek</h3>
+              <button class="about-feature-link" onclick="openStopFromAbout()">
+                Wybierz przystanek →
+              </button>
 
-          <p>
-            Jeżeli interesuje Cię przede wszystkim komunikacja
-            w Twojej miejscowości, wybierz zakładkę
-            <strong>„Mój przystanek”</strong>.
-          </p>
+            </div>
 
-          <p>
-            Po wskazaniu przystanku zobaczysz wszystkie projektowane
-            odjazdy autobusów z tego miejsca wraz z numerem linii
-            i kierunkiem jazdy.
-          </p>
+          </div>
+          <div class="about-feature-card">
 
-          <p>
-            Przy przystankach położonych w pobliżu kolei zobaczysz
-            również oznaczenie 🚆 oraz informację o najbliższej
-            stacji kolejowej, orientacyjnej odległości i czasie
-            dojścia pieszo.
-          </p>
-        </div>
+            <div class="about-feature-icon">
+              🗺️
+            </div>
 
+            <div class="about-feature-content">
 
-        <div class="about-section">
-          <h3>🚌 Linie 61–64</h3>
+              <h3>Interaktywna mapa</h3>
 
-          <p>
-            Zakładka <strong>„Linie 61–64”</strong> pozwala obejrzeć
-            pełne rozkłady wszystkich projektowanych linii.
-          </p>
+              <p>
+                Zobacz cały projekt na mapie. Sprawdź przebieg linii,
+                położenie przystanków i stacji kolejowych oraz uruchom
+                symulację ruchu autobusów i pociągów.
+              </p>
 
-          <p>
-            Najpierw wybierz linię i kierunek. Następnie zobaczysz
-            tabelę z kolejnymi przystankami i godzinami przejazdu
-            wszystkich zaplanowanych kursów.
-          </p>
+              <button class="about-feature-link" onclick="openMapFromAbout()">
+                Otwórz mapę →
+              </button>
 
-          <p>
-            Symbol 🚆 przy nazwie przystanku oznacza możliwość
-            dojścia z tego przystanku do stacji kolejowej.
-          </p>
-        </div>
+            </div>
+
+          </div>
 
 
-        <div class="about-section">
-          <h3>🗺️ Interaktywna mapa</h3>
+          <div class="about-feature-card">
 
-          <p>
-            Zakładka <strong>„Mapa”</strong> pokazuje cały projekt
-            komunikacji na rzeczywistej mapie Gminy Sobótka.
-          </p>
+            <div class="about-feature-icon">
+              🚆
+            </div>
 
-          <p>Na mapie możesz zobaczyć:</p>
+            <div class="about-feature-content">
 
-          <ul>
-            <li>wszystkie przystanki autobusowe objęte projektem,</li>
-            <li>przebieg linii autobusowych 61, 62, 63 i 64,</li>
-            <li>stacje kolejowe w Rogowie Sobóckim, Sobótce i Sobótce Zachodniej,</li>
-            <li>przebieg linii kolejowej Wrocław – Świdnica,</li>
-            <li>projektowane kursy autobusów i ruch pociągów podczas symulacji.</li>
-          </ul>
+              <h3>Autobus + kolej</h3>
 
-          <p>
-            Kliknięcie przystanku pokaże jego nazwę i obsługujące
-            go linie. Kliknięcie stacji kolejowej pozwala sprawdzić
-            dostępne odjazdy pociągów.
-          </p>
-        </div>
+              <p>
+                Sprawdź możliwości dalszej podróży koleją przez stacje
+                Rogów Sobócki, Sobótka i Sobótka Zachodnia oraz rozkład
+                pociągów na trasie Wrocław – Świdnica – Wrocław.
+              </p>
 
+              <button class="about-feature-link" onclick="openMapFromAbout()">
+                Zobacz kolej na mapie →
+              </button>
 
-        <div class="about-section">
-          <h3>👁️ Włączanie i wyłączanie elementów mapy</h3>
+            </div>
 
-          <p>
-            Nad mapą znajduje się panel
-            <strong>„Widoczność na mapie”</strong>.
-            Możesz w nim sam zdecydować, jakie informacje chcesz
-            aktualnie oglądać.
-          </p>
-
-          <p>Możesz niezależnie pokazywać lub ukrywać:</p>
-
-          <ul>
-            <li>przystanki autobusowe,</li>
-            <li>stacje kolejowe,</li>
-            <li>linię kolejową,</li>
-            <li>linię autobusową 61,</li>
-            <li>linię autobusową 62,</li>
-            <li>linię autobusową 63,</li>
-            <li>linię autobusową 64.</li>
-          </ul>
-
-          <p>
-            Przyciskiem ⛶ możesz otworzyć mapę na pełnym ekranie.
-            Klawisz <strong>Esc</strong> pozwala wrócić do zwykłego
-            widoku strony.
-          </p>
-        </div>
-
-
-        <div class="about-section">
-          <h3>▶ Symulacja komunikacji</h3>
-
-          <p>
-            Mapa posiada zegar umożliwiający zobaczenie, jak
-            projektowana komunikacja działa w ciągu dnia.
-          </p>
-
-          <p>
-            Po otwarciu mapy symulacja jest zatrzymana, a zegar
-            pokazuje aktualną godzinę.
-          </p>
-
-          <p>
-            Kliknij <strong>„Play”</strong>, aby uruchomić upływ
-            czasu. Na mapie pojawią się autobusy i pociągi
-            kursujące o danej porze.
-          </p>
-
-          <p>
-            Możesz zmieniać prędkość symulacji, przesuwać czas
-            o godzinę do przodu lub do tyłu oraz użyć przycisku
-            <strong>„Teraz”</strong>, aby wrócić do aktualnej godziny.
-          </p>
-
-          <div class="about-note">
-            <strong>Ważne:</strong>
-            animacja przedstawia planowany ruch pojazdów wynikający
-            z rozkładów jazdy. Nie pokazuje rzeczywistej lokalizacji
-            autobusu lub pociągu ani bieżących opóźnień.
           </div>
         </div>
+        <div class="about-map-feature">
 
+          <div class="about-map-feature-content">
 
-        <div class="about-section">
-          <h3>🚆 Autobus i kolej</h3>
+            <span class="about-map-label">
+              MAPA I SYMULACJA
+            </span>
 
-          <p>
-            Jednym z elementów projektu jest możliwość wykorzystania
-            komunikacji autobusowej do dojazdu w pobliże stacji
-            kolejowych.
-          </p>
+            <h2>
+              Zobacz, jak projekt działa w ciągu dnia
+            </h2>
 
-          <p>
-            Na mapie pokazane są trzy stacje kolejowe znajdujące się
-            na terenie gminy:
-          </p>
+            <p>
+              Na interaktywnej mapie możesz zobaczyć przebieg wszystkich
+              linii autobusowych, przystanki, stacje kolejowe oraz linię
+              kolejową Wrocław – Świdnica.
+            </p>
 
-          <ul>
-            <li>Rogów Sobócki,</li>
-            <li>Sobótka,</li>
-            <li>Sobótka Zachodnia.</li>
-          </ul>
+            <p>
+              Uruchom symulację, ustaw interesującą Cię godzinę
+              i obserwuj planowany ruch autobusów oraz pociągów.
+            </p>
 
-          <p>
-            Dzięki temu możesz sprawdzić nie tylko sam przejazd
-            autobusem, ale również ocenić, czy zaproponowane godziny
-            kursów umożliwiają wygodne dalsze podróżowanie koleją.
-          </p>
+            <button class="btn orange" onclick="openMapFromAbout()">
+              ▶ Otwórz mapę i symulację
+            </button>
+
+          </div>
+
+          <div class="about-map-feature-visual">
+            <img src="about-map.jpg" alt="Interaktywna mapa projektu komunikacji Gminy Sobótka" class="about-map-image">
+          </div>
+
         </div>
+        <div class="about-rail-feature">
 
+          <div class="about-rail-visual">
+            <div class="about-rail-placeholder">
+              🚌 → 🚆
+            </div>
+          </div>
 
-        <div class="about-section">
-          <h3>💬 Oceń projekt</h3>
+          <div class="about-rail-content">
 
-          <p>
-            Najważniejszym celem strony jest zebranie informacji
-            o rzeczywistych potrzebach mieszkańców.
-          </p>
+            <span class="about-rail-label">
+              AUTOBUS + KOLEJ
+            </span>
 
-          <p>
-            W zakładce <strong>„Oceń projekt”</strong> możesz
-            wskazać:
-          </p>
+            <h2>
+              Jedna podróż, różne środki transportu
+            </h2>
 
-          <ul>
-            <li>skąd najczęściej podróżujesz,</li>
-            <li>dokąd potrzebujesz dojechać,</li>
-            <li>o której godzinie potrzebujesz rozpocząć lub zakończyć podróż,</li>
-            <li>jaki jest cel podróży,</li>
-            <li>czy projekt odpowiada Twojej potrzebie,</li>
-            <li>czego brakuje, jeżeli zaproponowane połączenie Ci nie odpowiada,</li>
-            <li>jaka godzina kursu byłaby dla Ciebie lepsza.</li>
-          </ul>
+            <p>
+              Projekt komunikacji gminnej uwzględnia możliwość
+              kontynuowania podróży koleją w kierunku
+              Wrocławia lub Świdnicy.
+            </p>
 
-          <p>
-            Możesz również dopisać własny komentarz.
-          </p>
+            <p>
+              Na terenie Gminy Sobótka znajdują się trzy stacje kolejowe:
+            </p>
+
+            <ul>
+              <li>
+                <strong>Rogów Sobócki</strong>
+              </li>
+
+              <li>
+                <strong>Sobótka</strong>
+              </li>
+
+              <li>
+                <strong>Sobótka Zachodnia</strong>
+              </li>
+            </ul>
+
+            <p>
+              W aplikacji możesz sprawdzić położenie stacji,
+              rozkład pociągów oraz zobaczyć, które przystanki
+              autobusowe znajdują się w ich pobliżu.
+            </p>
+
+            <button class="about-feature-link" onclick="openMapFromAbout()">
+              Zobacz kolej na mapie →
+            </button>
+
+          </div>
+
         </div>
+        <div class="about-simulation">
+
+          <div class="about-section-heading">
+            <span>SYMULACJA</span>
+
+            <h2>Jak działa symulacja?</h2>
+
+            <p>
+              Ustaw interesującą Cię porę dnia i zobacz,
+              jak według projektu poruszają się autobusy
+              i pociągi.
+            </p>
+          </div>
+
+          <div class="about-simulation-steps">
+
+            <div class="about-simulation-step">
+
+              <div class="about-simulation-number">
+                1
+              </div>
+
+              <div class="about-simulation-icon">
+                🕒
+              </div>
+
+              <h3>Ustaw godzinę</h3>
+
+              <p>
+                Zacznij od aktualnej godziny albo przesuń
+                czas o godzinę do przodu lub do tyłu.
+              </p>
+
+            </div>
 
 
-        <div class="about-section about-important">
-          <h3>⚠️ Pamiętaj: to jest projekt</h3>
+            <div class="about-simulation-step">
 
-          <p>
-            Prezentowane linie, przystanki i godziny kursowania
-            nie są obecnie obowiązującym rozkładem jazdy.
-          </p>
+              <div class="about-simulation-number">
+                2
+              </div>
 
-          <p>
-            Strona służy temu, aby przed ewentualnym wdrożeniem
-            projektu mieszkańcy mogli go dokładnie obejrzeć,
-            sprawdzić na własnych przykładach i wskazać elementy,
-            które wymagają poprawy.
-          </p>
+              <div class="about-simulation-icon">
+                ▶️
+              </div>
+
+              <h3>Uruchom symulację</h3>
+
+              <p>
+                Kliknij „Play” i wybierz tempo,
+                w jakim ma płynąć czas symulacji.
+              </p>
+
+            </div>
+
+
+            <div class="about-simulation-step">
+
+              <div class="about-simulation-number">
+                3
+              </div>
+
+              <div class="about-simulation-icon">
+                🚌 🚆
+              </div>
+
+              <h3>Obserwuj ruch</h3>
+
+              <p>
+                Zobacz na mapie planowany ruch autobusów
+                i pociągów zgodnie z rozkładami jazdy.
+              </p>
+
+            </div>
+
+          </div>
+
         </div>
+        <div class="about-consultation-cta">
 
+          <div class="about-consultation-content">
 
-        <div class="about-section">
-          <h3>🔒 Co dzieje się z moją opinią?</h3>
+            <span class="about-consultation-label">
+              KONSULTACJE SPOŁECZNE
+            </span>
 
-          <p>
-            W obecnej wersji demonstracyjnej zapisane odpowiedzi
-            pozostają lokalnie w przeglądarce na Twoim urządzeniu.
-            Nie są automatycznie wysyłane do Urzędu ani zapisywane
-            w centralnej bazie danych.
-          </p>
+            <h2>
+              Twoja opinia ma znaczenie
+            </h2>
 
-          <p>
-            Funkcja centralnego zbierania odpowiedzi zostanie
-            przygotowana przed rozpoczęciem właściwych konsultacji
-            społecznych.
-          </p>
+            <p>
+              Projekt komunikacji powinien odpowiadać na rzeczywiste
+              potrzeby mieszkańców. Dlatego zanim ocenisz projekt,
+              sprawdź go na przykładzie swojej codziennej podróży.
+            </p>
+
+            <p>
+              Zobacz proponowane połączenia, godziny kursowania
+              i możliwości dojazdu, a następnie powiedz nam,
+              czy takie rozwiązanie byłoby dla Ciebie użyteczne.
+            </p>
+
+            <div class="about-consultation-actions">
+
+              <button class="btn about-consultation-secondary" onclick="openFindFromAbout()">
+                🔎 Najpierw sprawdź połączenie
+              </button>
+
+              <button class="btn orange" onclick="openFeedbackFromAbout()">
+                💬 Oceń projekt
+              </button>
+
+            </div>
+
+          </div>
+
         </div>
+        <div class="about-important-info">
 
+          <div class="about-section-heading">
+            <span>WAŻNE INFORMACJE</span>
+
+            <h2>Zanim zaczniesz korzystać</h2>
+
+            <p>
+              Kilka rzeczy, o których warto pamiętać podczas
+              przeglądania projektu.
+            </p>
+          </div>
+
+          <div class="about-info-grid">
+
+            <div class="about-info-card">
+              <div class="about-info-icon">
+                ⚠️
+              </div>
+
+              <div>
+                <h3>To jest projekt</h3>
+
+                <p>
+                  Prezentowane linie, przystanki i godziny
+                  nie są obecnie obowiązującym rozkładem jazdy.
+                  Służą do przedstawienia rozwiązania,
+                  które jest poddawane konsultacjom.
+                </p>
+              </div>
+            </div>
+
+
+            <div class="about-info-card">
+              <div class="about-info-icon">
+                🕒
+              </div>
+
+              <div>
+                <h3>Symulacja pokazuje planowany ruch</h3>
+
+                <p>
+                  Pozycje autobusów i pociągów są obliczane
+                  na podstawie rozkładów i przebiegu tras.
+                  Nie jest to podgląd rzeczywistych pojazdów
+                  ani ich aktualnych opóźnień.
+                </p>
+              </div>
+            </div>
+
+
+            <div class="about-info-card">
+              <div class="about-info-icon">
+                🔒
+              </div>
+
+              <div>
+                <h3>Opinie są obecnie zapisywane lokalnie</h3>
+
+                <p>
+                  W tej wersji demonstracyjnej odpowiedzi
+                  pozostają w przeglądarce na Twoim urządzeniu.
+                  Nie są jeszcze automatycznie przesyłane
+                  do wspólnej bazy konsultacji.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
       </div>
     </section>
   </main>
