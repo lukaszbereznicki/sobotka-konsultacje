@@ -12,12 +12,20 @@
 <body>
   <header>
     <div class="head">
+
       <div class="mark">
-        <img src="herb-sobotki.svg" alt="Herb Gminy Sobótka" class="municipality-logo" />
+        <img src="herb-sobotki.svg" alt="Herb Gminy Sobótka" class="municipality-logo">
       </div>
+
       <div>
-        <b>Komunikacja Gminna Sobótka</b><br /><span class="tag">PROJEKT DO KONSULTACJI</span>
+        <b>Projekt komunikacji Gminy Sobótka</b>
+        <br>
+
+        <span class="tag">
+          PROJEKT DO KONSULTACJI
+        </span>
       </div>
+
     </div>
   </header>
   <main>
@@ -41,7 +49,7 @@
       </button>
 
       <button onclick="tab('mapView', this)">
-        🗺️ Mapa
+        🗺️ Interaktywna mapa
       </button>
 
       <button onclick="tab('feedback', this)">
@@ -242,12 +250,16 @@
             </button>
 
           </div>
-          <button type="button" class="map-fullscreen-button" onclick="toggleMapFullscreen()" title="Pełny ekran"
-            aria-label="Otwórz mapę na pełnym ekranie">
-            ⛶
-          </button>
+          <div class="transport-map-wrapper">
 
-          <div id="transportMap"></div>
+            <button type="button" class="map-fullscreen-button" onclick="toggleMapFullscreen()" title="Pełny ekran"
+              aria-label="Otwórz mapę na pełnym ekranie">
+              ⛶
+            </button>
+
+            <div id="transportMap"></div>
+
+          </div>
 
         </div>
 
@@ -468,12 +480,18 @@
 
           <div class="about-hero-content">
 
-            <span class="about-hero-label">
-              PROJEKT DO KONSULTACJI
-            </span>
+            <div class="about-hero-brand">
+
+              <img src="herb-sobotki.svg" alt="Herb Gminy Sobótka" class="about-hero-logo">
+
+              <span class="about-hero-label">
+                PROJEKT DO KONSULTACJI
+              </span>
+
+            </div>
 
             <h1>
-              Nowa komunikacja<br>
+              Projekt komunikacji<br>
               Gminy Sobótka
             </h1>
 
@@ -491,7 +509,7 @@
               </button>
 
               <button class="btn about-hero-secondary" onclick="openMapFromAbout()">
-                🗺️ Otwórz mapę
+                🗺️ Otwórz interaktywną mapę
               </button>
 
             </div>
@@ -901,6 +919,102 @@
       </div>
     </section>
   </main>
+  <footer class="site-footer">
+
+    <div class="site-footer-inner">
+
+      <div class="site-footer-column">
+
+        <div class="site-footer-brand">
+          <img src="herb-sobotki.svg" alt="Herb Gminy Sobótka" class="site-footer-logo">
+
+          <div>
+            <strong>Projekt komunikacji Gminy Sobótka</strong>
+
+            <span>
+              Społeczny projekt do konsultacji
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="site-footer-column">
+
+        <span class="site-footer-heading">
+          Autor strony
+        </span>
+
+        <strong>
+          Łukasz Bereżnicki
+        </strong>
+
+        <span>
+          koncepcja, opracowanie danych i aplikacji
+        </span>
+
+      </div>
+
+
+      <div class="site-footer-column">
+
+        <span class="site-footer-heading">
+          Kontakt
+        </span>
+
+        <a href="mailto:TWOJ_EMAIL">
+          ✉️ lukasz.bereznicki@gmail.com
+        </a>
+
+        <a href="tel:TWOJ_NUMER">
+          ☎️ +48 609 323 321
+        </a>
+
+      </div>
+
+
+      <div class="site-footer-column">
+
+        <span class="site-footer-heading">
+          Stowarzyszenie
+        </span>
+
+        <div class="site-footer-association">
+
+          <img src="logo-dla-sobotki.png" alt="Logo Stowarzyszenia Dla Sobótki" class="site-footer-association-logo">
+
+          <div>
+            <strong>
+              Stowarzyszenie Dla Sobótki
+            </strong>
+
+            <a href="https://dlasobotki.pl/" target="_blank" rel="noopener noreferrer">
+              🌐 dlasobotki.pl
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="site-footer-bottom">
+
+      <span>
+        © 2026 Stowarzyszenie Dla Sobótki.
+        Wszystkie prawa zastrzeżone.
+      </span>
+
+      <span>
+        Projekt ma charakter informacyjny i konsultacyjny.
+      </span>
+
+    </div>
+
+  </footer>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script src="app.js"></script>
