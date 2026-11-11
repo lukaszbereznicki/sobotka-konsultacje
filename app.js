@@ -1489,6 +1489,9 @@ function saveFeedback() {
   let obj = {
     responseId: "RESP_" + Date.now(),
     createdAt: new Date().toISOString(),
+    usageFrequency:
+      document.querySelector('input[name="usageFrequency"]:checked')?.value ||
+      null,
     origin: {
       stopId: $("feedbackOrigin").value,
       locality: STOPS[$("feedbackOrigin").value]?.locality,
@@ -2583,40 +2586,36 @@ function openStopFromAbout() {
 }
 
 function openMapFromAbout() {
-    const mapButton = document.querySelector(
-        '.tabs button[onclick*="mapView"]'
-    );
+  const mapButton = document.querySelector('.tabs button[onclick*="mapView"]');
 
-    if (!mapButton) {
-        console.error(
-            "Nie znaleziono przycisku zakładki Interaktywna mapa."
-        );
-        return;
+  if (!mapButton) {
+    console.error("Nie znaleziono przycisku zakładki Interaktywna mapa.");
+    return;
+  }
+
+  /*
+   * Przełączamy zakładkę dokładnie tak samo,
+   * jak po kliknięciu przycisku w menu.
+   */
+  tab("mapView", mapButton);
+
+  /*
+   * Wracamy na górę strony.
+   */
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+
+  /*
+   * Leaflet musi przeliczyć rozmiar mapy
+   * po pokazaniu wcześniej ukrytej zakładki.
+   */
+  setTimeout(() => {
+    if (TRANSPORT_MAP) {
+      TRANSPORT_MAP.invalidateSize();
     }
-
-    /*
-     * Przełączamy zakładkę dokładnie tak samo,
-     * jak po kliknięciu przycisku w menu.
-     */
-    tab("mapView", mapButton);
-
-    /*
-     * Wracamy na górę strony.
-     */
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-    /*
-     * Leaflet musi przeliczyć rozmiar mapy
-     * po pokazaniu wcześniej ukrytej zakładki.
-     */
-    setTimeout(() => {
-        if (TRANSPORT_MAP) {
-            TRANSPORT_MAP.invalidateSize();
-        }
-    }, 150);
+  }, 150);
 }
 
 function openFeedbackFromAbout() {
